@@ -1,0 +1,1 @@
+- [Orval-generated Zod schema imports](orval-schema-imports.md) — import generated types from package root, not the internal `generated/api.schemas` path; also `queryKey` is required alongside `enabled` in generated query options.

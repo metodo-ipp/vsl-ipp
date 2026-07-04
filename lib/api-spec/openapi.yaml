@@ -10,6 +10,12 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: areas
+    description: Diagnosis area / VSL configuration
+  - name: quiz
+    description: Quiz submission and lead capture
+  - name: events
+    description: Funnel tracking events
 paths:
   /healthz:
     get:
@@ -24,6 +30,94 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /areas:
+    get:
+      operationId: listAreas
+      tags: [areas]
+      summary: List all diagnosis areas
+      description: Returns the 5 diagnosis areas with their VSL, checkout and WhatsApp configuration
+      responses:
+        "200":
+          description: List of areas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Area"
+  /areas/{slug}:
+    get:
+      operationId: getArea
+      tags: [areas]
+      summary: Get a single diagnosis area by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/AreaSlug"
+      responses:
+        "200":
+          description: Area found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Area"
+        "404":
+          description: Area not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /quiz/submit:
+    post:
+      operationId: submitQuiz
+      tags: [quiz]
+      summary: Submit quiz answers and lead contact info
+      description: Validates input, computes the winning diagnosis area, saves the lead and answers, and logs lead_captured/quiz_completed/result_generated events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuizSubmitInput"
+      responses:
+        "201":
+          description: Lead created and diagnosis computed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuizResult"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /events:
+    post:
+      operationId: createEvent
+      tags: [events]
+      summary: Record a funnel tracking event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventInput"
+      responses:
+        "201":
+          description: Event recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +127,142 @@ components:
           type: string
       required:
         - status
-
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    AreaSlug:
+      type: string
+      enum: [saude, emocional, familia, espiritual, profissional]
+    Area:
+      type: object
+      required:
+        - slug
+        - area
+        - diagnosisTitle
+        - vslUrl
+        - checkoutUrl497
+        - checkoutUrl4997
+        - whatsappGroupUrl
+      properties:
+        slug:
+          $ref: "#/components/schemas/AreaSlug"
+        area:
+          type: string
+        diagnosisTitle:
+          type: string
+        vslUrl:
+          type: string
+        poster:
+          type: ["string", "null"]
+        checkoutUrl497:
+          type: string
+        checkoutUrl4997:
+          type: string
+        whatsappGroupUrl:
+          type: string
+    QuizAnswerInput:
+      type: object
+      required:
+        - questionKey
+        - questionText
+        - answerText
+      properties:
+        questionKey:
+          type: string
+        questionText:
+          type: string
+        answerText:
+          type: string
+        scoreArea:
+          type: ["string", "null"]
+    QuizSubmitInput:
+      type: object
+      required:
+        - name
+        - email
+        - whatsapp
+        - answers
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+        whatsapp:
+          type: string
+          minLength: 8
+        maritalStatus:
+          type: ["string", "null"]
+        intentLevel:
+          type: ["string", "null"]
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/QuizAnswerInput"
+        utmSource:
+          type: ["string", "null"]
+        utmMedium:
+          type: ["string", "null"]
+        utmCampaign:
+          type: ["string", "null"]
+        utmContent:
+          type: ["string", "null"]
+        utmTerm:
+          type: ["string", "null"]
+        landingUrl:
+          type: ["string", "null"]
+    QuizResult:
+      type: object
+      required:
+        - leadId
+        - winningArea
+        - diagnosisTitle
+        - slug
+        - resultUrl
+      properties:
+        leadId:
+          type: string
+        winningArea:
+          type: string
+        diagnosisTitle:
+          type: string
+        slug:
+          $ref: "#/components/schemas/AreaSlug"
+        resultUrl:
+          type: string
+    EventInput:
+      type: object
+      required:
+        - eventName
+      properties:
+        leadId:
+          type: ["string", "null"]
+        eventName:
+          type: string
+        eventPayload:
+          type: object
+          additionalProperties: true
+    Event:
+      type: object
+      required:
+        - id
+        - eventName
+        - createdAt
+      properties:
+        id:
+          type: string
+        leadId:
+          type: ["string", "null"]
+        eventName:
+          type: string
+        eventPayload:
+          type: ["object", "null"]
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
