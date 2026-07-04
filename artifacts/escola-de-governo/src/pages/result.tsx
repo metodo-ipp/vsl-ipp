@@ -79,11 +79,8 @@ export default function Result() {
         eventPayload: { slug },
       }
     });
-    // Open checkout in new tab
     if (area?.checkoutUrl497) {
-      window.open(area.checkoutUrl497, '_blank');
-      // Redirect current window to thank you page
-      setLocation(`/obrigado/${slug}`);
+      window.location.assign(area.checkoutUrl497);
     }
   };
 

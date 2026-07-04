@@ -9,7 +9,6 @@ import Quiz from "@/pages/quiz";
 import QuizContact from "@/pages/quiz-contact";
 import QuizAnalyzing from "@/pages/quiz-analyzing";
 import Result from "@/pages/result";
-import ThankYou from "@/pages/thank-you";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +20,6 @@ function Router() {
       <Route path="/quiz/contato" component={QuizContact} />
       <Route path="/quiz/analisando" component={QuizAnalyzing} />
       <Route path="/resultado/:slug" component={Result} />
-      <Route path="/obrigado/:slug" component={ThankYou} />
       <Route component={NotFound} />
     </Switch>
   );
