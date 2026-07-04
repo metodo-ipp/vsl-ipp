@@ -12,5 +12,8 @@
   "devDependencies": {
     "prettier": "^3.8.4",
     "typescript": "~5.9.3"
+  },
+  "dependencies": {
+    "@rollup/rollup-darwin-arm64": "^4.62.2"
   }
 }
