@@ -70,13 +70,6 @@ function GreenButton({ href = "#", children }: { href?: string; children: React.
           46%  { opacity: 0; }
           100% { left: 110%;  opacity: 0; }
         }
-
-        @media (max-width: 640px) {
-          .green-btn {
-            padding: 16px 24px;
-            font-size: 15px;
-          }
-        }
       `}</style>
 
       <a href={href} className="green-btn">
