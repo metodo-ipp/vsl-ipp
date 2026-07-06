@@ -70,6 +70,13 @@ function GreenButton({ href = "#", children }: { href?: string; children: React.
           46%  { opacity: 0; }
           100% { left: 110%;  opacity: 0; }
         }
+
+        @media (max-width: 640px) {
+          .green-btn {
+            padding: 16px 24px;
+            font-size: 15px;
+          }
+        }
       `}</style>
 
       <a href={href} className="green-btn">
@@ -226,9 +233,10 @@ export default function VSL() {
               color: "#fff",
             }}
           >
-            USE O PODER DAS{" "}
-            <span style={{ color: "#FFD700" }}>PALAVRAS</span>{" "}
-            PARA IMPRIMIR DINHEIRO NA SUA VIDA
+            COMO USAR O PODER DAS{" "}
+            <span style={{ color: "#fff" }}>PALAVRAS</span>{" "}
+            <span style={{ color: "#00E64D" }}>PARA IMPRIMIR DINHEIRO</span>{" "}
+            NA SUA VIDA
           </h1>
 
           {/* Subtítulo */}
@@ -241,9 +249,8 @@ export default function VSL() {
               margin: "0 0 28px",
             }}
           >
-            Conheça o método que ensina você a{" "}
-            <strong style={{ color: "#FFD700" }}>declarar uma nova realidade</strong>{" "}
-            e transformar sua vida financeira, espiritual e familiar.
+            Aprenda o que declarar, quando declarar e como alinhar sua boca, sua fé e suas ações para destravar uma{" "}
+            <strong style={{ color: "#00E64D" }}>nova vida financeira</strong>.
           </p>
 
           {/* Vídeo */}
