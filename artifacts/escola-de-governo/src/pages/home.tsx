@@ -26,10 +26,7 @@ export default function Home() {
     <div className="min-h-[100dvh] flex flex-col bg-background selection:bg-primary selection:text-white">
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 md:px-12 text-center max-w-4xl mx-auto w-full">
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm text-primary">
-            <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
-            Escola de Governo
-          </div>
+          <img src="/logotipo.png" alt="Logotipo" className="h-12 mx-auto" />
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground text-balance">
             Descubra o ponto de desalinhamento que está travando o seu <span className="text-primary italic">progresso.</span>
