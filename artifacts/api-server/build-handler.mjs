@@ -15,11 +15,11 @@ async function buildHandler() {
   await mkdir(apiDir, { recursive: true });
 
   await esbuild({
-    entryPoints: [path.resolve(artifactDir, "src/handler.ts")],
+    entryPoints: [{ in: path.resolve(artifactDir, "src/handler.ts"), out: "index" }],
     platform: "node",
     bundle: true,
     format: "cjs",
-    outfile: path.resolve(apiDir, "index.js"),
+    outdir: apiDir,
     logLevel: "info",
     external: [
       "*.node",
