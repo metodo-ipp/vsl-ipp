@@ -152,10 +152,6 @@ overrides:
 importers:
 
   .:
-    dependencies:
-      '@rollup/rollup-darwin-arm64':
-        specifier: ^4.62.2
-        version: 4.62.2
     devDependencies:
       concurrently:
         specifier: ^10.0.3
@@ -166,6 +162,10 @@ importers:
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
+    optionalDependencies:
+      '@rollup/rollup-darwin-arm64':
+        specifier: ^4.62.2
+        version: 4.62.2
 
   artifacts/api-server:
     dependencies:
@@ -4228,7 +4228,8 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.0-rc.3': {}
 
-  '@rollup/rollup-darwin-arm64@4.62.2': {}
+  '@rollup/rollup-darwin-arm64@4.62.2':
+    optional: true
 
   '@rollup/rollup-linux-x64-gnu@4.62.2':
     optional: true
