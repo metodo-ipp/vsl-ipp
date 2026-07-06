@@ -4,6 +4,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
+import VSL from "@/pages/vsl";
+import Links from "@/pages/links";
 import Home from "@/pages/home";
 import Quiz from "@/pages/quiz";
 import QuizContact from "@/pages/quiz-contact";
@@ -15,11 +17,13 @@ const queryClient = new QueryClient();
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/quiz" component={Quiz} />
-      <Route path="/quiz/contato" component={QuizContact} />
-      <Route path="/quiz/analisando" component={QuizAnalyzing} />
-      <Route path="/resultado/:slug" component={Result} />
+      <Route path="/" component={Links} />
+      <Route path="/declarando-prosperidade" component={VSL} />
+      <Route path="/escola-de-governo" component={Home} />
+      <Route path="/escola-de-governo/quiz" component={Quiz} />
+      <Route path="/escola-de-governo/quiz/contato" component={QuizContact} />
+      <Route path="/escola-de-governo/quiz/analisando" component={QuizAnalyzing} />
+      <Route path="/escola-de-governo/resultado/:slug" component={Result} />
       <Route component={NotFound} />
     </Switch>
   );

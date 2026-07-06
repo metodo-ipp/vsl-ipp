@@ -116,7 +116,7 @@ export default function Quiz() {
     if (currentStep < questions.length - 1) {
       setCurrentStep(s => s + 1);
     } else {
-      setLocation("/quiz/contato");
+      setLocation("/escola-de-governo/quiz/contato");
     }
   };
 
@@ -124,7 +124,7 @@ export default function Quiz() {
     if (currentStep > 0) {
       setCurrentStep(s => s - 1);
     } else {
-      setLocation("/");
+      setLocation("/escola-de-governo");
     }
   };
 

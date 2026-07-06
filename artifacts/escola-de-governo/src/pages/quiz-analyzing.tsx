@@ -8,12 +8,12 @@ export default function QuizAnalyzing() {
 
   useEffect(() => {
     if (!slug) {
-      setLocation("/");
+      setLocation("/escola-de-governo");
       return;
     }
 
     const timer = setTimeout(() => {
-      setLocation(`/resultado/${slug}`);
+      setLocation(`/escola-de-governo/resultado/${slug}`);
     }, 3000); // 3 seconds
 
     return () => clearTimeout(timer);

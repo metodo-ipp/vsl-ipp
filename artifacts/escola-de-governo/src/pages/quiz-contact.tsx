@@ -38,7 +38,7 @@ export default function QuizContact() {
 
   // Redirect if no answers
   if (answers.length < 5) {
-    setLocation("/quiz");
+    setLocation("/escola-de-governo/quiz");
     return null;
   }
 
@@ -77,7 +77,7 @@ export default function QuizContact() {
           slug: result.slug,
           resultUrl: result.resultUrl,
         });
-        setLocation("/quiz/analisando");
+        setLocation("/escola-de-governo/quiz/analisando");
       },
       onError: () => {
         setSubmitError("Ocorreu um erro ao enviar suas respostas. Tente novamente.");

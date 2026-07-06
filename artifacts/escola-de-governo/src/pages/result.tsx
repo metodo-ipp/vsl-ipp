@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
 
 export default function Result() {
-  const [match, params] = useRoute("/resultado/:slug");
+  const [match, params] = useRoute("/escola-de-governo/resultado/:slug");
   const [, setLocation] = useLocation();
   
   const leadId = useQuizStore((state) => state.leadId);
@@ -27,7 +27,7 @@ export default function Result() {
 
   useEffect(() => {
     if (!slug) {
-      setLocation("/");
+      setLocation("/escola-de-governo");
     }
   }, [slug, setLocation]);
 

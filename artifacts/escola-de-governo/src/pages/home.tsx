@@ -38,7 +38,7 @@ export default function Home() {
           
           <div className="pt-4 flex flex-col items-center gap-4">
             <Link 
-              href="/quiz" 
+              href="/escola-de-governo/quiz" 
               onClick={() => resetAnswers()}
               className="inline-flex h-14 items-center justify-center rounded-full bg-primary px-8 text-lg font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
             >

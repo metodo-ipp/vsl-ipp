@@ -20,7 +20,7 @@ export default function ThankYou() {
 
   useEffect(() => {
     if (!slug) {
-      setLocation("/");
+      setLocation("/escola-de-governo");
     }
   }, [slug, setLocation]);
 

@@ -1,0 +1,7 @@
+{
+  "buildCommand": "pnpm install --frozen-lockfile && pnpm --filter @workspace/api-server run build:handler && PORT=3000 BASE_PATH=/ pnpm --filter @workspace/escola-de-governo run build",
+  "outputDirectory": "artifacts/escola-de-governo/dist/public",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index.js" }
+  ]
+}
