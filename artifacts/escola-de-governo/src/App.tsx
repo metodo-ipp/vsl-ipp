@@ -18,7 +18,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Links} />
-      <Route path="/declarando-prosperidade" component={VSL} />
+      <Route path="/como-imprimir-dinheiro-com-palavras" component={VSL} />
       <Route path="/escola-de-governo" component={Home} />
       <Route path="/escola-de-governo/quiz" component={Quiz} />
       <Route path="/escola-de-governo/quiz/contato" component={QuizContact} />

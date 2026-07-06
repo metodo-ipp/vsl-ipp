@@ -3,7 +3,7 @@ const YOUTUBE_URL = "https://youtube.com/@samuelpereira"; // TODO: confirmar URL
 const links = [
   {
     label: "Declarando Prosperidade",
-    href: "/declarando-prosperidade",
+    href: "/como-imprimir-dinheiro-com-palavras",
     external: false,
   },
   {
