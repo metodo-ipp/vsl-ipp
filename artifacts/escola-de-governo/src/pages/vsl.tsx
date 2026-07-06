@@ -109,7 +109,7 @@ export default function VSL() {
       ---------------------------------------------------------------- */}
       <style>{`
         .vsl-photo        { display: block; }
-        .vsl-content      { padding: 48px 32px 60px 48px; max-width: 640px; }
+        .vsl-content      { padding: 48px 32px 60px 48px; max-width: 760px; }
         .vsl-headline     { text-align: left; }
         .vsl-subtitle     { text-align: left; }
         .vsl-btn          { font-size: 16px; letter-spacing: 1.5px; white-space: nowrap; }
