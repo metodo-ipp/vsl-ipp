@@ -25,6 +25,8 @@ import type {
   ErrorResponse,
   Event,
   EventInput,
+  FreeGroupJoinInput,
+  FreeGroupJoinResult,
   HealthStatus,
   QuizResult,
   QuizSubmitInput
@@ -359,6 +361,77 @@ export const useSubmitQuiz = <TError = ErrorType<ErrorResponse>,
         TContext
       > => {
       return useMutation(getSubmitQuizMutationOptions(options));
+    }
+
+export const getJoinFreeGroupUrl = () => {
+
+
+
+
+  return `/api/free-group/join`
+}
+
+/**
+ * Saves the lead contact info for the free WhatsApp group and returns the lead ID
+ * @summary Join the free WhatsApp declarations group
+ */
+export const joinFreeGroup = async (freeGroupJoinInput: FreeGroupJoinInput, options?: RequestInit): Promise<FreeGroupJoinResult> => {
+
+  return customFetch<FreeGroupJoinResult>(getJoinFreeGroupUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(freeGroupJoinInput)
+  }
+);}
+
+
+
+
+export const getJoinFreeGroupMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof joinFreeGroup>>, TError,{data: BodyType<FreeGroupJoinInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof joinFreeGroup>>, TError,{data: BodyType<FreeGroupJoinInput>}, TContext> => {
+
+const mutationKey = ['joinFreeGroup'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof joinFreeGroup>>, {data: BodyType<FreeGroupJoinInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  joinFreeGroup(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type JoinFreeGroupMutationResult = NonNullable<Awaited<ReturnType<typeof joinFreeGroup>>>
+    export type JoinFreeGroupMutationBody = BodyType<FreeGroupJoinInput>
+    export type JoinFreeGroupMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Join the free WhatsApp declarations group
+ */
+export const useJoinFreeGroup = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof joinFreeGroup>>, TError,{data: BodyType<FreeGroupJoinInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof joinFreeGroup>>,
+        TError,
+        {data: BodyType<FreeGroupJoinInput>},
+        TContext
+      > => {
+      return useMutation(getJoinFreeGroupMutationOptions(options));
     }
 
 export const getCreateEventUrl = () => {

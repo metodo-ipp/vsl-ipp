@@ -77,6 +77,30 @@ export interface QuizResult {
   resultUrl: string;
 }
 
+export interface FreeGroupJoinInput {
+  /** @minLength 1 */
+  name: string;
+  email: string;
+  /** @minLength 8 */
+  whatsapp: string;
+  /** @nullable */
+  utmSource?: string | null;
+  /** @nullable */
+  utmMedium?: string | null;
+  /** @nullable */
+  utmCampaign?: string | null;
+  /** @nullable */
+  utmContent?: string | null;
+  /** @nullable */
+  utmTerm?: string | null;
+  /** @nullable */
+  landingUrl?: string | null;
+}
+
+export interface FreeGroupJoinResult {
+  leadId: string;
+}
+
 export type EventInputEventPayload = { [key: string]: unknown };
 
 export interface EventInput {

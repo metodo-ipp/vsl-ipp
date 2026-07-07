@@ -157,6 +157,16 @@
   --ring: 351 57% 45%;
 }
 
+@keyframes gradient {
+  to {
+    background-position: var(--bg-size) 0;
+  }
+}
+
+@theme inline {
+  --animate-gradient: gradient 8s linear infinite;
+}
+
 @layer base {
   * {
     @apply border-border;

@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
 import VSL from "@/pages/vsl";
+import GrupoGratis from "@/pages/grupo-gratis";
 import Links from "@/pages/links";
 import Home from "@/pages/home";
 import Quiz from "@/pages/quiz";
@@ -19,6 +20,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Links} />
       <Route path="/como-imprimir-dinheiro-com-palavras" component={VSL} />
+      <Route path="/grupo-gratis" component={GrupoGratis} />
       <Route path="/escola-de-governo" component={Home} />
       <Route path="/escola-de-governo/quiz" component={Quiz} />
       <Route path="/escola-de-governo/quiz/contato" component={QuizContact} />

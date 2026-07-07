@@ -13,6 +13,8 @@ export * from './event';
 export * from './eventEventPayload';
 export * from './eventInput';
 export * from './eventInputEventPayload';
+export * from './freeGroupJoinInput';
+export * from './freeGroupJoinResult';
 export * from './healthStatus';
 export * from './quizAnswerInput';
 export * from './quizResult';

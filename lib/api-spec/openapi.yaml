@@ -16,6 +16,8 @@ tags:
     description: Quiz submission and lead capture
   - name: events
     description: Funnel tracking events
+  - name: free-group
+    description: Free WhatsApp group lead capture
 paths:
   /healthz:
     get:
@@ -88,6 +90,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/QuizResult"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /free-group/join:
+    post:
+      operationId: joinFreeGroup
+      tags: [free-group]
+      summary: Join the free WhatsApp declarations group
+      description: Saves the lead contact info for the free WhatsApp group and returns the lead ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FreeGroupJoinInput"
+      responses:
+        "201":
+          description: Lead saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FreeGroupJoinResult"
         "400":
           description: Invalid input
           content:
@@ -234,6 +261,41 @@ components:
         slug:
           $ref: "#/components/schemas/AreaSlug"
         resultUrl:
+          type: string
+    FreeGroupJoinInput:
+      type: object
+      required:
+        - name
+        - email
+        - whatsapp
+      properties:
+        name:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+        whatsapp:
+          type: string
+          minLength: 8
+        utmSource:
+          type: ["string", "null"]
+        utmMedium:
+          type: ["string", "null"]
+        utmCampaign:
+          type: ["string", "null"]
+        utmContent:
+          type: ["string", "null"]
+        utmTerm:
+          type: ["string", "null"]
+        landingUrl:
+          type: ["string", "null"]
+    FreeGroupJoinResult:
+      type: object
+      required:
+        - leadId
+      properties:
+        leadId:
           type: string
     EventInput:
       type: object

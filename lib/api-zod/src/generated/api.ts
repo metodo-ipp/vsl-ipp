@@ -92,6 +92,32 @@ export const SubmitQuizResponse = zod.object({
 
 
 /**
+ * Saves the lead contact info for the free WhatsApp group and returns the lead ID
+ * @summary Join the free WhatsApp declarations group
+ */
+
+export const joinFreeGroupBodyWhatsappMin = 8;
+
+
+
+export const JoinFreeGroupBody = zod.object({
+  "name": zod.string().min(1),
+  "email": zod.string().email(),
+  "whatsapp": zod.string().min(joinFreeGroupBodyWhatsappMin),
+  "utmSource": zod.string().nullish(),
+  "utmMedium": zod.string().nullish(),
+  "utmCampaign": zod.string().nullish(),
+  "utmContent": zod.string().nullish(),
+  "utmTerm": zod.string().nullish(),
+  "landingUrl": zod.string().nullish()
+})
+
+export const JoinFreeGroupResponse = zod.object({
+  "leadId": zod.string()
+})
+
+
+/**
  * @summary Record a funnel tracking event
  */
 export const CreateEventBody = zod.object({
