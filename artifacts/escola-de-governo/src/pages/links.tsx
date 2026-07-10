@@ -24,7 +24,9 @@ export default function Links() {
       <div className="w-full max-w-sm flex flex-col items-center gap-6">
         {/* Nome e Bio */}
         <div className="text-center space-y-1">
-          <h1 className="text-xl font-bold text-foreground">Samuel Pereira</h1>
+          <h1 className="text-xl font-bold text-foreground font-[Montserrat,sans-serif] [background-clip:unset] [-webkit-background-clip:unset]">
+            Samuel Pereira
+          </h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             ✍🏼 Criador do IPP&nbsp;&nbsp;📖 Autor de Impossível Permanecer Pobre
             <br />
