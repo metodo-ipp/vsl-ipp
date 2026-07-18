@@ -155,7 +155,16 @@ function PageStyles() {
 const formSchema = z.object({
   name: z.string().min(2, "Informe seu nome completo."),
   email: z.string().email("Informe um e-mail válido."),
-  whatsapp: z.string().min(14, "Informe um WhatsApp válido com DDD."),
+  whatsapp: z
+    .string()
+    .regex(/^[0-9+()\s-]+$/, "Use apenas números e os símbolos +, (), espaço ou hífen.")
+    .refine(
+      (value) => {
+        const digits = value.replace(/\D/g, "");
+        return digits.length >= 8 && digits.length <= 15;
+      },
+      "Informe um WhatsApp válido com DDI."
+    ),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -189,13 +198,6 @@ export default function GrupoGratis() {
   useEffect(() => {
     document.title = "Grupo Gratuito de Declarações – Samuel Pereira";
   }, []);
-
-  const formatWhatsApp = (value: string) => {
-    const numbers = value.replace(/\D/g, "");
-    if (numbers.length <= 2) return `(${numbers}`;
-    if (numbers.length <= 7) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
-    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
-  };
 
   const onSubmit = (data: FormValues) => {
     setSubmitError(null);
@@ -356,19 +358,15 @@ export default function GrupoGratis() {
 
           <div>
             <label className="gg-label" htmlFor="gg-whatsapp">
-              WhatsApp (com DDD)
+              WhatsApp com DDI
             </label>
             <input
               id="gg-whatsapp"
               type="tel"
               className="gg-input"
-              placeholder="(11) 99999-9999"
+              placeholder="Seu número do Whatsapp"
               autoComplete="tel"
-              {...form.register("whatsapp", {
-                onChange: (e) => {
-                  e.target.value = formatWhatsApp(e.target.value);
-                },
-              })}
+              {...form.register("whatsapp")}
             />
             {form.formState.errors.whatsapp && (
               <p className="gg-error">
