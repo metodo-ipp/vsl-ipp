@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 // ---------------------------------------------------------------------------
 // Configurações
 // ---------------------------------------------------------------------------
-const GROUP_URL = "https://chat.whatsapp.com/LRYfjdlGCvdLMim6obsetv";
+const GROUP_URL = "https://chat.whatsapp.com/FqvP9CLNYwAFHYgnEEqfPI?s=cl&p=i&ilr=4";
 
 // ---------------------------------------------------------------------------
 // Styles helper (injected once via JSX)
