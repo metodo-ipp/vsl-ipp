@@ -141,8 +141,8 @@ export default function CidGrupo() {
           <div>
             <GreenButton href={checkoutUrl} onClick={() => trackOnce("checkout_click")} />
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px", marginTop: "14px", flexWrap: "wrap" }}>
-              <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 7 dias de garantia</span>
-              <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 100% Seguro</span>
+              <span style={{ fontSize: "14px", color: "#00BB2D", fontWeight: 600 }}>✓ 7 dias de garantia</span>
+              <span style={{ fontSize: "14px", color: "#00BB2D", fontWeight: 600 }}>✓ 100% Seguro</span>
             </div>
           </div>
         </div>
