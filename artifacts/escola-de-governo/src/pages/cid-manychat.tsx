@@ -1,9 +1,9 @@
 import CidVslPage from "@/components/cid-vsl-page";
 
-export default function CidGrupo() {
+export default function CidManychat() {
   return <CidVslPage
-    checkoutUrl="https://hub.la/r/cid-vsl-grupo"
-    trackingPrefix="cid_grupo"
+    checkoutUrl="https://hub.la/r/cid-vsl-manychat"
+    trackingPrefix="cid_manychat"
     video={{
       type: "vturb",
       playerId: "vid-6a6233971ac7c381ab3cd275",
