@@ -12,6 +12,7 @@ import Quiz from "@/pages/quiz";
 import QuizContact from "@/pages/quiz-contact";
 import QuizAnalyzing from "@/pages/quiz-analyzing";
 import Result from "@/pages/result";
+import CidGrupo from "@/pages/cid-grupo";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/" component={Links} />
       <Route path="/como-imprimir-dinheiro-com-palavras" component={VSL} />
       <Route path="/grupo-gratis" component={GrupoGratis} />
+      <Route path="/cid/grupo" component={CidGrupo} />
       <Route path="/escola-de-governo" component={Home} />
       <Route path="/escola-de-governo/quiz" component={Quiz} />
       <Route path="/escola-de-governo/quiz/contato" component={QuizContact} />
