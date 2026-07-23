@@ -31,7 +31,7 @@ type YouTubePlayer = {
 const VIDEO_ID = "vfyM1IjgdLE";
 const CHECKOUT_URL = "https://hub.la/r/cid-vsl-grupo";
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
-const CTA_DELAY_MS = 10 * 60 * 1000;
+const CTA_VIDEO_TIME_SECONDS = 10 * 60;
 
 function trackOnce(eventName: string) {
   const storageKey = `cid_grupo_${eventName}`;
@@ -89,9 +89,6 @@ export default function CidGrupo() {
   const playerElementRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
   const intervalRef = useRef<number | null>(null);
-  const unlockTimerRef = useRef<number | null>(null);
-  const playbackStartedAtRef = useRef<number | null>(null);
-  const watchedMsRef = useRef(0);
   const [checkoutUrl, setCheckoutUrl] = useState(CHECKOUT_URL);
   const [showCTA, setShowCTA] = useState(false);
   const BG = "#060D1A";
@@ -114,32 +111,13 @@ export default function CidGrupo() {
       const player = playerRef.current;
       const duration = player?.getDuration() || 0;
       if (!player || !duration) return;
-      const progress = (player.getCurrentTime() / duration) * 100;
+      const currentTime = player.getCurrentTime();
+      const progress = (currentTime / duration) * 100;
       if (progress >= 25) trackOnce("vsl_progress_25");
       if (progress >= 50) trackOnce("vsl_progress_50");
       if (progress >= 75) trackOnce("vsl_progress_75");
       if (progress >= 90) trackOnce("vsl_progress_90");
-    };
-
-    const stopPlaybackTimer = () => {
-      if (playbackStartedAtRef.current !== null) {
-        watchedMsRef.current += Date.now() - playbackStartedAtRef.current;
-        playbackStartedAtRef.current = null;
-      }
-      if (unlockTimerRef.current !== null) window.clearTimeout(unlockTimerRef.current);
-      unlockTimerRef.current = null;
-      if (watchedMsRef.current >= CTA_DELAY_MS) setShowCTA(true);
-    };
-
-    const startPlaybackTimer = () => {
-      if (showCTA || playbackStartedAtRef.current !== null) return;
-      playbackStartedAtRef.current = Date.now();
-      const remainingMs = Math.max(0, CTA_DELAY_MS - watchedMsRef.current);
-      unlockTimerRef.current = window.setTimeout(() => {
-        watchedMsRef.current = CTA_DELAY_MS;
-        playbackStartedAtRef.current = null;
-        setShowCTA(true);
-      }, remainingMs);
+      if (currentTime >= CTA_VIDEO_TIME_SECONDS) setShowCTA(true);
     };
 
     const createPlayer = () => {
@@ -152,10 +130,9 @@ export default function CidGrupo() {
           onStateChange: (event) => {
             if (event.data === 1) {
               trackOnce("vsl_start");
-              startPlaybackTimer();
+              checkProgress();
               if (intervalRef.current === null) intervalRef.current = window.setInterval(checkProgress, 1000);
             }
-            if (event.data !== 1) stopPlaybackTimer();
             if (event.data === 0) {
               checkProgress();
               trackOnce("vsl_complete");
@@ -183,7 +160,6 @@ export default function CidGrupo() {
 
     return () => {
       if (intervalRef.current !== null) window.clearInterval(intervalRef.current);
-      if (unlockTimerRef.current !== null) window.clearTimeout(unlockTimerRef.current);
       playerRef.current?.destroy();
     };
   }, []);
