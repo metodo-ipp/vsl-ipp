@@ -61,9 +61,27 @@ function checkoutWithUtms() {
 
 function GreenButton({ href, onClick }: { href: string; onClick: () => void }) {
   return (
-    <a href={href} onClick={onClick} className="cid-green-button">
-      QUERO MINHA TRANSFORMAÇÃO AGORA
-    </a>
+    <>
+      <style>{`
+        .green-btn {
+          display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 25px 46px;
+          border-radius: 10px; border: none; border-bottom: 3px solid #027F20;
+          background: radial-gradient(165.91% 647.63% at 45.92% -308.33%, #00BB2D 0%, #009624 100%);
+          color: #fff; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 900; letter-spacing: 1px;
+          text-decoration: none; text-transform: uppercase; text-align: center; position: relative; overflow: hidden;
+          z-index: 0; cursor: pointer; transition: filter .2s;
+        }
+        .green-btn:hover { filter: brightness(1.08); }
+        .green-btn:active { translate: 0 1px; }
+        .green-btn::before {
+          content: ""; position: absolute; top: -10%; left: -80px; width: 60px; height: 120%; background: #fff;
+          box-shadow: 0 0 30px 20px rgba(255,255,255,.97); transform: skewX(-20deg); mix-blend-mode: plus-lighter;
+          opacity: 0; animation: brilho 3s linear infinite; z-index: 1;
+        }
+        @keyframes brilho { 0% { left: -80px; opacity: 0; } 5% { opacity: 1; } 45% { left: 110%; opacity: 1; } 46%, 100% { left: 110%; opacity: 0; } }
+      `}</style>
+      <a href={href} onClick={onClick} className="green-btn">QUERO MINHA TRANSFORMAÇÃO AGORA</a>
+    </>
   );
 }
 
@@ -76,6 +94,7 @@ export default function CidGrupo() {
   const watchedMsRef = useRef(0);
   const [checkoutUrl, setCheckoutUrl] = useState(CHECKOUT_URL);
   const [showCTA, setShowCTA] = useState(false);
+  const BG = "#060D1A";
 
   useEffect(() => {
     setCheckoutUrl(checkoutWithUtms());
@@ -170,38 +189,52 @@ export default function CidGrupo() {
   }, []);
 
   return (
-    <div className="cid-page">
+    <div style={{ backgroundColor: BG, color: "#fff", fontFamily: "'DM Sans', 'Inter', sans-serif", overflowX: "hidden", minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <style>{`
-        .cid-page { min-height: 100dvh; overflow-x: hidden; background: #060D1A; color: #fff; font-family: 'DM Sans', 'Inter', sans-serif; }
-        .cid-urgency { padding: 14px 20px; background: #D92020; color: #fff; font-family: 'Montserrat', sans-serif; font-size: clamp(12px, 3.7vw, 20px); font-weight: 700; letter-spacing: clamp(1px, .7vw, 3px); text-align: center; text-transform: uppercase; }
-        .cid-main { width: min(100%, 900px); margin: 0 auto; padding: 48px 24px 60px; }
-        .cid-headline { margin: 0 0 18px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: clamp(28px, 6vw, 52px); font-weight: 900; letter-spacing: .5px; line-height: 1.05; text-align: center; text-transform: uppercase; }
-        .cid-subtitle { margin: 0 auto 28px; max-width: 740px; color: rgba(255,255,255,.8); font-size: 16px; line-height: 1.7; text-align: center; }
-        .cid-player { aspect-ratio: 16 / 9; width: 100%; overflow: hidden; border: 2px solid rgba(255,215,0,.5); border-radius: 6px; background: #000; box-shadow: 0 0 40px rgba(255,215,0,.08); }
-        .cid-player iframe { width: 100%; height: 100%; border: 0; display: block; }
-        .cid-cta { margin: 28px auto 0; max-width: 700px; }
-        .cid-green-button { display: inline-flex; box-sizing: border-box; align-items: center; justify-content: center; width: 100%; min-height: 72px; padding: 20px 24px; border-bottom: 3px solid #027F20; border-radius: 10px; background: radial-gradient(165.91% 647.63% at 45.92% -308.33%, #00BB2D 0%, #009624 100%); color: #fff; font-family: 'Montserrat', sans-serif; font-size: clamp(14px, 3.7vw, 18px); font-weight: 900; letter-spacing: 1px; text-align: center; text-decoration: none; text-transform: uppercase; }
-        .cid-green-button:hover { filter: brightness(1.08); }
-        .cid-trust { display: flex; justify-content: center; gap: 24px; margin-top: 14px; color: rgba(255,255,255,.75); font-size: 14px; font-weight: 600; }
-        .cid-footer { padding: 20px 24px; border-top: 1px solid rgba(255,255,255,.07); color: rgba(255,255,255,.25); font-size: 12px; letter-spacing: 1px; text-align: center; text-transform: uppercase; }
-        @media (max-width: 560px) { .cid-main { padding: 36px 16px 48px; } .cid-trust { gap: 14px; font-size: 12px; } }
+        .vsl-photo { display: block; }
+        .vsl-content { padding: 48px 32px 60px 48px; max-width: 760px; }
+        .vsl-headline, .vsl-subtitle { text-align: left; }
+        .vsl-youtube-player, .vsl-youtube-player iframe { width: 100% !important; height: 100% !important; border: 0; display: block; }
+        .vsl-btn { font-size: 16px; letter-spacing: 1.5px; white-space: nowrap; }
+        .vsl-urgency { font-size: 20px; letter-spacing: 3px; white-space: nowrap; }
+        @media (max-width: 768px) {
+          .vsl-photo { display: none !important; }
+          .vsl-content { padding: 36px 20px 48px; max-width: 100%; }
+          .vsl-headline, .vsl-subtitle { text-align: center; }
+          .vsl-btn { font-size: 15px; letter-spacing: .5px; white-space: normal; }
+          .vsl-urgency { font-size: 14px; letter-spacing: 1.5px; }
+        }
       `}</style>
 
-      <div className="cid-urgency">Assista antes que saia do ar</div>
-      <main className="cid-main">
-        <h1 className="cid-headline">Como usar o poder das palavras para <span style={{ color: "#00E64D" }}>imprimir dinheiro</span> na sua vida</h1>
-        <p className="cid-subtitle">Aprenda o que declarar, quando declarar e como alinhar sua boca, sua fé e suas ações para destravar uma <strong style={{ color: "#00E64D" }}>nova vida financeira</strong>.</p>
-        <div className="cid-player" aria-label="Vídeo Como Imprimir Dinheiro com Suas Palavras">
-          <div ref={playerElementRef} />
+      <div className="vsl-urgency" style={{ backgroundColor: "#D92020", padding: "14px 24px", textAlign: "center", fontWeight: 700, textTransform: "uppercase", color: "#fff", flexShrink: 0, whiteSpace: "nowrap", overflow: "hidden", fontFamily: "'Montserrat', sans-serif" }}>ASSISTA ANTES QUE SAIA DO AR</div>
+      <section style={{ position: "relative", flex: 1, display: "flex", alignItems: "flex-start", overflow: "hidden", minHeight: "calc(100dvh - 50px)" }}>
+        <div aria-hidden className="vsl-photo" style={{ position: "absolute", top: 0, right: 0, width: "52%", height: "100%", zIndex: 0 }}>
+          <img src="/Samuel - Perfil.png" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+          <div style={{ position: "absolute", top: 0, left: 0, width: "60%", height: "100%", background: `linear-gradient(to right, ${BG} 0%, transparent 100%)`, zIndex: 1 }} />
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", background: `linear-gradient(to top, ${BG} 0%, transparent 100%)`, zIndex: 1 }} />
         </div>
-        {showCTA && (
-          <div className="cid-cta">
-            <GreenButton href={checkoutUrl} onClick={() => trackOnce("checkout_click")} />
-            <div className="cid-trust"><span>✓ 7 dias de garantia</span><span>✓ 100% Seguro</span></div>
+
+        <div className="vsl-content" style={{ position: "relative", zIndex: 1, width: "100%" }}>
+          <h1 className="vsl-headline" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(28px, 3.8vw, 52px)", fontWeight: 900, lineHeight: 1.05, textTransform: "uppercase", letterSpacing: ".5px", margin: "0 0 18px", color: "#fff" }}>COMO USAR O PODER DAS <span>PALAVRAS</span> <span style={{ color: "#00E64D" }}>PARA IMPRIMIR DINHEIRO</span> NA SUA VIDA</h1>
+          <p className="vsl-subtitle" style={{ fontSize: "16px", lineHeight: 1.7, color: "rgba(255,255,255,.8)", margin: "0 0 28px" }}>Aprenda o que declarar, quando declarar e como alinhar sua boca, sua fé e suas ações para destravar uma <strong style={{ color: "#00E64D" }}>nova vida financeira</strong>.</p>
+          <div aria-label="Vídeo Como Imprimir Dinheiro com Suas Palavras" style={{ borderRadius: "6px", overflow: "hidden", border: "2px solid rgba(255,215,0,.5)", boxShadow: "0 0 40px rgba(255,215,0,.08)", aspectRatio: "16/9", background: "#000", marginBottom: "28px" }}>
+            <div ref={playerElementRef} className="vsl-youtube-player" />
           </div>
-        )}
-      </main>
-      <footer className="cid-footer">Todos os Direitos Reservados - 2026 - Samuel Pereira</footer>
+          {showCTA && (
+            <div style={{ transition: "opacity .6s ease, transform .6s ease", opacity: 1, transform: "translateY(0)" }}>
+              <GreenButton href={checkoutUrl} onClick={() => trackOnce("checkout_click")} />
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px", marginTop: "14px", flexWrap: "wrap" }}>
+                <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 7 dias de garantia</span>
+                <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 100% Seguro</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,.07)", padding: "20px 24px", textAlign: "center", flexShrink: 0 }}>
+        <p style={{ fontSize: "12px", color: "rgba(255,255,255,.25)", margin: 0, textTransform: "uppercase", letterSpacing: "1px" }}>Política de Privacidade &nbsp;|&nbsp; Termos de Uso</p>
+        <p style={{ fontSize: "12px", color: "rgba(255,255,255,.2)", margin: "6px 0 0", letterSpacing: ".5px" }}>Todos os Direitos Reservados - 2026 - Samuel Pereira</p>
+      </footer>
     </div>
   );
 }
