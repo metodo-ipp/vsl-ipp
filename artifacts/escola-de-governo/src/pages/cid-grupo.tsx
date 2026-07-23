@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 declare global {
   interface Window {
@@ -38,23 +38,40 @@ function checkoutWithUtms() {
   return checkoutUrl.toString();
 }
 
+function GreenButton({ href, onClick }: { href: string; onClick: () => void }) {
+  return (
+    <>
+      <style>{`
+        .green-btn {
+          display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 25px 46px;
+          border-radius: 10px; border: none; border-bottom: 3px solid #027F20;
+          background: radial-gradient(165.91% 647.63% at 45.92% -308.33%, #00BB2D 0%, #009624 100%);
+          color: #fff; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 900; letter-spacing: 1px;
+          text-decoration: none; text-transform: uppercase; text-align: center; position: relative; overflow: hidden;
+          z-index: 0; cursor: pointer; transition: filter .2s;
+        }
+        .green-btn:hover { filter: brightness(1.08); }
+        .green-btn:active { translate: 0 1px; }
+        .green-btn::before {
+          content: ""; position: absolute; top: -10%; left: -80px; width: 60px; height: 120%; background: #fff;
+          box-shadow: 0 0 30px 20px rgba(255,255,255,.97); transform: skewX(-20deg); mix-blend-mode: plus-lighter;
+          opacity: 0; animation: brilho 3s linear infinite; z-index: 1;
+        }
+        @keyframes brilho { 0% { left: -80px; opacity: 0; } 5% { opacity: 1; } 45% { left: 110%; opacity: 1; } 46%, 100% { left: 110%; opacity: 0; } }
+      `}</style>
+      <a href={href} onClick={onClick} className="green-btn">QUERO MINHA TRANSFORMAÇÃO AGORA</a>
+    </>
+  );
+}
+
 export default function CidGrupo() {
   const playerElementRef = useRef<HTMLDivElement>(null);
+  const [checkoutUrl, setCheckoutUrl] = useState(CHECKOUT_URL);
   const BG = "#060D1A";
 
   useEffect(() => {
+    setCheckoutUrl(checkoutWithUtms());
     trackOnce("vsl_page_view");
-
-    const trackCheckoutClick = (event: MouseEvent) => {
-      const checkoutLink = event.composedPath().find(
-        (target): target is HTMLAnchorElement =>
-          target instanceof HTMLAnchorElement && target.href.startsWith(CHECKOUT_URL),
-      );
-
-      if (checkoutLink) trackOnce("checkout_click");
-    };
-
-    document.addEventListener("click", trackCheckoutClick, true);
 
     if (GA_MEASUREMENT_ID) {
       const gaScript = document.createElement("script");
@@ -68,16 +85,6 @@ export default function CidGrupo() {
 
     const container = playerElementRef.current;
     if (!container) return;
-
-    const syncCheckoutUrl = () => {
-      const checkoutUrl = checkoutWithUtms();
-      container.querySelectorAll<HTMLAnchorElement>(`a[href^="${CHECKOUT_URL}"]`).forEach((link) => {
-        link.href = checkoutUrl;
-      });
-    };
-
-    const checkoutObserver = new MutationObserver(syncCheckoutUrl);
-    checkoutObserver.observe(container, { childList: true, subtree: true });
 
     const player = document.createElement("vturb-smartplayer");
     player.id = VTURB_PLAYER_ID;
@@ -94,8 +101,6 @@ export default function CidGrupo() {
     document.head.appendChild(script);
 
     return () => {
-      document.removeEventListener("click", trackCheckoutClick, true);
-      checkoutObserver.disconnect();
       script.remove();
       container.replaceChildren();
     };
@@ -133,9 +138,12 @@ export default function CidGrupo() {
           <div aria-label="Vídeo Como Imprimir Dinheiro com Suas Palavras" style={{ borderRadius: "6px", overflow: "hidden", border: "2px solid rgba(255,215,0,.5)", boxShadow: "0 0 40px rgba(255,215,0,.08)", aspectRatio: "16/9", background: "#000", marginBottom: "28px" }}>
             <div ref={playerElementRef} className="vsl-vturb-player" />
           </div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px", marginTop: "14px", flexWrap: "wrap" }}>
-            <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 7 dias de garantia</span>
-            <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 100% Seguro</span>
+          <div>
+            <GreenButton href={checkoutUrl} onClick={() => trackOnce("checkout_click")} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px", marginTop: "14px", flexWrap: "wrap" }}>
+              <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 7 dias de garantia</span>
+              <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 100% Seguro</span>
+            </div>
           </div>
         </div>
       </section>
