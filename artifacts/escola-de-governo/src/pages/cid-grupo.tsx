@@ -2,35 +2,15 @@ import { useEffect, useRef, useState } from "react";
 
 declare global {
   interface Window {
-    YT?: {
-      Player: new (
-        element: HTMLElement,
-        options: {
-          videoId: string;
-          playerVars: Record<string, number>;
-          events: {
-            onReady: () => void;
-            onStateChange: (event: { data: number }) => void;
-          };
-        },
-      ) => YouTubePlayer;
-      PlayerState: { ENDED: number; PLAYING: number };
-    };
-    onYouTubeIframeAPIReady?: () => void;
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
   }
 }
 
-type YouTubePlayer = {
-  destroy: () => void;
-  getCurrentTime: () => number;
-  getDuration: () => number;
-};
-
-const VIDEO_ID = "vfyM1IjgdLE";
 const CHECKOUT_URL = "https://hub.la/r/cid-vsl-grupo";
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const VTURB_PLAYER_ID = "vid-6a6233971ac7c381ab3cd275";
+const VTURB_PLAYER_SCRIPT = "https://scripts.converteai.net/d96d1452-17dc-48ff-8763-0c764e770de2/players/6a6233971ac7c381ab3cd275/v4/player.js";
 
 function trackOnce(eventName: string) {
   const storageKey = `cid_grupo_${eventName}`;
@@ -86,8 +66,6 @@ function GreenButton({ href, onClick }: { href: string; onClick: () => void }) {
 
 export default function CidGrupo() {
   const playerElementRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<YouTubePlayer | null>(null);
-  const intervalRef = useRef<number | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState(CHECKOUT_URL);
   const BG = "#060D1A";
 
@@ -105,59 +83,26 @@ export default function CidGrupo() {
       window.gtag("config", GA_MEASUREMENT_ID);
     }
 
-    const checkProgress = () => {
-      const player = playerRef.current;
-      const duration = player?.getDuration() || 0;
-      if (!player || !duration) return;
-      const currentTime = player.getCurrentTime();
-      const progress = (currentTime / duration) * 100;
-      if (progress >= 25) trackOnce("vsl_progress_25");
-      if (progress >= 50) trackOnce("vsl_progress_50");
-      if (progress >= 75) trackOnce("vsl_progress_75");
-      if (progress >= 90) trackOnce("vsl_progress_90");
-    };
+    const container = playerElementRef.current;
+    if (!container) return;
 
-    const createPlayer = () => {
-      if (!playerElementRef.current || !window.YT?.Player) return;
-      playerRef.current = new window.YT.Player(playerElementRef.current, {
-        videoId: VIDEO_ID,
-        playerVars: { enablejsapi: 1, playsinline: 1, rel: 0 },
-        events: {
-          onReady: () => undefined,
-          onStateChange: (event) => {
-            if (event.data === 1) {
-              trackOnce("vsl_start");
-              checkProgress();
-              if (intervalRef.current === null) intervalRef.current = window.setInterval(checkProgress, 1000);
-            }
-            if (event.data === 0) {
-              checkProgress();
-              trackOnce("vsl_complete");
-              if (intervalRef.current !== null) window.clearInterval(intervalRef.current);
-              intervalRef.current = null;
-            }
-          },
-        },
-      });
-    };
+    const player = document.createElement("vturb-smartplayer");
+    player.id = VTURB_PLAYER_ID;
+    player.style.cssText = "display:block;margin:0 auto;width:100%;height:100%;";
+    const placeholder = document.createElement("div");
+    placeholder.className = "vturb-player-placeholder";
+    placeholder.style.cssText = "position:relative;width:100%;padding:56.25% 0 0;z-index:0;background-color:black;";
+    player.appendChild(placeholder);
+    container.replaceChildren(player);
 
-    if (window.YT?.Player) {
-      createPlayer();
-    } else {
-      const previousReady = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => {
-        previousReady?.();
-        createPlayer();
-      };
-      const script = document.createElement("script");
-      script.src = "https://www.youtube.com/iframe_api";
-      script.async = true;
-      document.head.appendChild(script);
-    }
+    const script = document.createElement("script");
+    script.src = VTURB_PLAYER_SCRIPT;
+    script.async = true;
+    document.head.appendChild(script);
 
     return () => {
-      if (intervalRef.current !== null) window.clearInterval(intervalRef.current);
-      playerRef.current?.destroy();
+      script.remove();
+      container.replaceChildren();
     };
   }, []);
 
@@ -167,7 +112,7 @@ export default function CidGrupo() {
         .vsl-photo { display: block; }
         .vsl-content { padding: 48px 32px 60px 48px; max-width: 760px; }
         .vsl-headline, .vsl-subtitle { text-align: left; }
-        .vsl-youtube-player, .vsl-youtube-player iframe { width: 100% !important; height: 100% !important; border: 0; display: block; }
+        .vsl-vturb-player, .vsl-vturb-player > vturb-smartplayer { width: 100% !important; height: 100% !important; border: 0; display: block; }
         .vsl-btn { font-size: 16px; letter-spacing: 1.5px; white-space: nowrap; }
         .vsl-urgency { font-size: 20px; letter-spacing: 3px; white-space: nowrap; }
         @media (max-width: 768px) {
@@ -191,7 +136,7 @@ export default function CidGrupo() {
           <h1 className="vsl-headline" style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "clamp(28px, 3.8vw, 52px)", fontWeight: 900, lineHeight: 1.05, textTransform: "uppercase", letterSpacing: ".5px", margin: "0 0 18px", color: "#fff" }}>COMO USAR O PODER DAS <span>PALAVRAS</span> <span style={{ color: "#00E64D" }}>PARA IMPRIMIR DINHEIRO</span> NA SUA VIDA</h1>
           <p className="vsl-subtitle" style={{ fontSize: "16px", lineHeight: 1.7, color: "rgba(255,255,255,.8)", margin: "0 0 28px" }}>Aprenda o que declarar, quando declarar e como alinhar sua boca, sua fé e suas ações para destravar uma <strong style={{ color: "#00E64D" }}>nova vida financeira</strong>.</p>
           <div aria-label="Vídeo Como Imprimir Dinheiro com Suas Palavras" style={{ borderRadius: "6px", overflow: "hidden", border: "2px solid rgba(255,215,0,.5)", boxShadow: "0 0 40px rgba(255,215,0,.08)", aspectRatio: "16/9", background: "#000", marginBottom: "28px" }}>
-            <div ref={playerElementRef} className="vsl-youtube-player" />
+            <div ref={playerElementRef} className="vsl-vturb-player" />
           </div>
           <div>
             <GreenButton href={checkoutUrl} onClick={() => trackOnce("checkout_click")} />
