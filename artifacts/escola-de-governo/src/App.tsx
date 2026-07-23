@@ -14,6 +14,7 @@ import QuizAnalyzing from "@/pages/quiz-analyzing";
 import Result from "@/pages/result";
 import CidGrupo from "@/pages/cid-grupo";
 import CidManychat from "@/pages/cid-manychat";
+import CidStory from "@/pages/cid-story";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/grupo-gratis" component={GrupoGratis} />
       <Route path="/cid/grupo" component={CidGrupo} />
       <Route path="/cid/manychat" component={CidManychat} />
+      <Route path="/cid/story" component={CidStory} />
       <Route path="/escola-de-governo" component={Home} />
       <Route path="/escola-de-governo/quiz" component={Quiz} />
       <Route path="/escola-de-governo/quiz/contato" component={QuizContact} />
