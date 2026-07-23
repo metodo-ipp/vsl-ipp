@@ -27,6 +27,17 @@ function trackOnce(eventName: string) {
   window.gtag("event", eventName);
 }
 
+function checkoutWithUtms() {
+  const checkoutUrl = new URL(CHECKOUT_URL);
+  const currentParams = new URLSearchParams(window.location.search);
+
+  currentParams.forEach((value, key) => {
+    if (key.toLowerCase().startsWith("utm_")) checkoutUrl.searchParams.set(key, value);
+  });
+
+  return checkoutUrl.toString();
+}
+
 export default function CidGrupo() {
   const playerElementRef = useRef<HTMLDivElement>(null);
   const BG = "#060D1A";
@@ -58,6 +69,16 @@ export default function CidGrupo() {
     const container = playerElementRef.current;
     if (!container) return;
 
+    const syncCheckoutUrl = () => {
+      const checkoutUrl = checkoutWithUtms();
+      container.querySelectorAll<HTMLAnchorElement>(`a[href^="${CHECKOUT_URL}"]`).forEach((link) => {
+        link.href = checkoutUrl;
+      });
+    };
+
+    const checkoutObserver = new MutationObserver(syncCheckoutUrl);
+    checkoutObserver.observe(container, { childList: true, subtree: true });
+
     const player = document.createElement("vturb-smartplayer");
     player.id = VTURB_PLAYER_ID;
     player.style.cssText = "display:block;margin:0 auto;width:100%;height:100%;";
@@ -74,6 +95,7 @@ export default function CidGrupo() {
 
     return () => {
       document.removeEventListener("click", trackCheckoutClick, true);
+      checkoutObserver.disconnect();
       script.remove();
       container.replaceChildren();
     };
