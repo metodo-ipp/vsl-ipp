@@ -31,7 +31,6 @@ type YouTubePlayer = {
 const VIDEO_ID = "vfyM1IjgdLE";
 const CHECKOUT_URL = "https://hub.la/r/cid-vsl-grupo";
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
-const CTA_VIDEO_TIME_SECONDS = 10 * 60;
 
 function trackOnce(eventName: string) {
   const storageKey = `cid_grupo_${eventName}`;
@@ -90,7 +89,6 @@ export default function CidGrupo() {
   const playerRef = useRef<YouTubePlayer | null>(null);
   const intervalRef = useRef<number | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState(CHECKOUT_URL);
-  const [showCTA, setShowCTA] = useState(false);
   const BG = "#060D1A";
 
   useEffect(() => {
@@ -117,7 +115,6 @@ export default function CidGrupo() {
       if (progress >= 50) trackOnce("vsl_progress_50");
       if (progress >= 75) trackOnce("vsl_progress_75");
       if (progress >= 90) trackOnce("vsl_progress_90");
-      if (currentTime >= CTA_VIDEO_TIME_SECONDS) setShowCTA(true);
     };
 
     const createPlayer = () => {
@@ -196,15 +193,13 @@ export default function CidGrupo() {
           <div aria-label="Vídeo Como Imprimir Dinheiro com Suas Palavras" style={{ borderRadius: "6px", overflow: "hidden", border: "2px solid rgba(255,215,0,.5)", boxShadow: "0 0 40px rgba(255,215,0,.08)", aspectRatio: "16/9", background: "#000", marginBottom: "28px" }}>
             <div ref={playerElementRef} className="vsl-youtube-player" />
           </div>
-          {showCTA && (
-            <div style={{ transition: "opacity .6s ease, transform .6s ease", opacity: 1, transform: "translateY(0)" }}>
-              <GreenButton href={checkoutUrl} onClick={() => trackOnce("checkout_click")} />
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px", marginTop: "14px", flexWrap: "wrap" }}>
-                <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 7 dias de garantia</span>
-                <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 100% Seguro</span>
-              </div>
+          <div>
+            <GreenButton href={checkoutUrl} onClick={() => trackOnce("checkout_click")} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "24px", marginTop: "14px", flexWrap: "wrap" }}>
+              <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 7 dias de garantia</span>
+              <span style={{ fontSize: "14px", color: "rgba(255,255,255,.75)", fontWeight: 600 }}>✓ 100% Seguro</span>
             </div>
-          )}
+          </div>
         </div>
       </section>
       <footer style={{ borderTop: "1px solid rgba(255,255,255,.07)", padding: "20px 24px", textAlign: "center", flexShrink: 0 }}>
