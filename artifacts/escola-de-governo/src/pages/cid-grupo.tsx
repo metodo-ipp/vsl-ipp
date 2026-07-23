@@ -29,11 +29,20 @@ function trackOnce(eventName: string) {
 
 function checkoutWithUtms() {
   const checkoutUrl = new URL(CHECKOUT_URL);
-  const currentParams = new URLSearchParams(window.location.search);
+  const pageUrl = new URL(window.location.href);
+  const currentParams = pageUrl.searchParams;
 
   currentParams.forEach((value, key) => {
-    if (key.toLowerCase().startsWith("utm_")) checkoutUrl.searchParams.set(key, value);
+    checkoutUrl.searchParams.set(key, value);
   });
+
+  if (pageUrl.search) {
+    const sck = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
+      .map((parameter) => currentParams.get(parameter) ?? "")
+      .join("|");
+
+    checkoutUrl.searchParams.set("sck", sck);
+  }
 
   return checkoutUrl.toString();
 }
