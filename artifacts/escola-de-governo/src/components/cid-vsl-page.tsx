@@ -50,7 +50,7 @@ function GreenButton({ href, onClick }: { href: string; onClick: () => void }) {
         .green-btn::before { content:""; position:absolute; top:-10%; left:-80px; width:60px; height:120%; background:#fff; box-shadow:0 0 30px 20px rgba(255,255,255,.97); transform:skewX(-20deg); mix-blend-mode:plus-lighter; opacity:0; animation:brilho 3s linear infinite; z-index:1; }
         @keyframes brilho { 0% { left:-80px; opacity:0; } 5% { opacity:1; } 45% { left:110%; opacity:1; } 46%,100% { left:110%; opacity:0; } }
       `}</style>
-      <a href={href} onClick={onClick} className="green-btn">QUERO MINHA TRANSFORMAÇÃO AGORA</a>
+      <a href={href} onClick={onClick} className="green-btn smartplayer-click-event">QUERO MINHA TRANSFORMAÇÃO AGORA</a>
     </>
   );
 }
