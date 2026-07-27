@@ -17,6 +17,7 @@ import CidManychat from "@/pages/cid-manychat";
 import CidStory from "@/pages/cid-story";
 import CidBio from "@/pages/cid-bio";
 import CidDevocional from "@/pages/cid-devocional";
+import CidYoutube from "@/pages/cid-youtube";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/cid/story" component={CidStory} />
       <Route path="/cid/bio" component={CidBio} />
       <Route path="/cid/devocional" component={CidDevocional} />
+      <Route path="/cid/youtube" component={CidYoutube} />
       <Route path="/escola-de-governo" component={Home} />
       <Route path="/escola-de-governo/quiz" component={Quiz} />
       <Route path="/escola-de-governo/quiz/contato" component={QuizContact} />
