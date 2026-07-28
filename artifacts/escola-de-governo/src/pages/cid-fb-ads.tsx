@@ -4,7 +4,7 @@ const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string | undefined;
 
 export default function CidFbAds() {
   return <CidVslPage
-    checkoutUrl="https://hub.la/r/cid-vsl-fb-ads"
+    checkoutUrl="https://hub.la/r/fb-ads"
     trackingPrefix="cid_fb_ads"
     metaPixelId={META_PIXEL_ID}
     video={{
