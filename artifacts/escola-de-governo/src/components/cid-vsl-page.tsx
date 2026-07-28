@@ -4,8 +4,18 @@ declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
+    fbq?: MetaPixelFunction;
+    _fbq?: MetaPixelFunction;
   }
 }
+
+type MetaPixelFunction = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  push?: (...args: unknown[]) => void;
+  queue: unknown[][];
+  loaded?: boolean;
+  version?: string;
+};
 
 type VideoSource =
   | { type: "vturb"; playerId: string; playerScript: string }
@@ -15,6 +25,7 @@ type CidVslPageProps = {
   checkoutUrl: string;
   trackingPrefix: string;
   video: VideoSource;
+  metaPixelId?: string;
 };
 
 type VturbSmartPlayerElement = HTMLElement & {
@@ -61,7 +72,7 @@ function GreenButton({ href, onClick }: { href: string; onClick: () => void }) {
   );
 }
 
-export default function CidVslPage({ checkoutUrl: checkoutBaseUrl, trackingPrefix, video }: CidVslPageProps) {
+export default function CidVslPage({ checkoutUrl: checkoutBaseUrl, trackingPrefix, video, metaPixelId }: CidVslPageProps) {
   const playerElementRef = useRef<HTMLDivElement>(null);
   const [checkoutUrl, setCheckoutUrl] = useState(checkoutBaseUrl);
   const BG = "#060D1A";
@@ -172,10 +183,40 @@ export default function CidVslPage({ checkoutUrl: checkoutBaseUrl, trackingPrefi
     return () => { if (timer) window.clearInterval(timer); window.removeEventListener("message", onMessage); container.replaceChildren(); };
   }, [checkoutBaseUrl, trackingPrefix, video]);
 
+  useEffect(() => {
+    if (!metaPixelId) return;
+
+    let script: HTMLScriptElement | undefined;
+    if (!window.fbq) {
+      const fbq = ((...args: unknown[]) => {
+        if (fbq.callMethod) fbq.callMethod(...args);
+        else fbq.queue.push(args);
+      }) as MetaPixelFunction;
+      fbq.queue = [];
+      fbq.push = fbq;
+      fbq.loaded = true;
+      fbq.version = "2.0";
+      window.fbq = fbq;
+      window._fbq = fbq;
+
+      script = document.createElement("script");
+      script.async = true;
+      script.src = "https://connect.facebook.net/en_US/fbevents.js";
+      document.head.appendChild(script);
+    }
+
+    window.fbq("init", metaPixelId);
+    window.fbq("track", "PageView");
+    window.fbq("track", "ViewContent");
+
+    return () => script?.remove();
+  }, [metaPixelId]);
+
   const checkout = () => {
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || ((...args: unknown[]) => window.dataLayer?.push(args));
     window.gtag("event", "checkout_click");
+    if (metaPixelId) window.fbq?.("trackCustom", "vsl_checkout_click");
   };
 
   return (
