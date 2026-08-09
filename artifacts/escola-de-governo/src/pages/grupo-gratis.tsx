@@ -7,7 +7,7 @@ import { useJoinFreeGroup } from "@workspace/api-client-react";
 // ---------------------------------------------------------------------------
 // Configurações
 // ---------------------------------------------------------------------------
-const GROUP_URL = "https://chat.whatsapp.com/FqvP9CLNYwAFHYgnEEqfPI?s=cl&p=i&ilr=4";
+const GROUP_URL = "https://chat.whatsapp.com/FqvP9CLNYwAFHYgnEEqfPI";
 
 // ---------------------------------------------------------------------------
 // Styles helper (injected once via JSX)
