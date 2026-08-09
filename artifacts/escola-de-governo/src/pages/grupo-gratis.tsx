@@ -452,9 +452,9 @@ export default function GrupoGratis() {
             TODA SEGUNDA · 20H · GOOGLE MEET · GRATUITO
           </p>
           <h1 className="gg-hero-title">
-            Você quer melhorar de vida.
+            Você quer uma vida acima da média.
             <br />
-            Mas suas decisões estão te levando pra lá?
+            Mas ainda toma decisões como a maioria.
           </h1>
           <p className="gg-hero-description">
             Toda semana, Samuel Pereira conduz uma aula prática e ao vivo para te
