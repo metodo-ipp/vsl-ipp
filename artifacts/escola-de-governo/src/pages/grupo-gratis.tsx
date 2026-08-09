@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useJoinFreeGroup } from "@workspace/api-client-react";
-import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
 // Configurações
@@ -28,7 +26,7 @@ function PageStyles() {
         border-bottom: 3px solid #027F20;
         background: radial-gradient(165.91% 647.63% at 45.92% -308.33%, #00BB2D 0%, #009624 100%);
         color: #fff;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Helvetica Neue', sans-serif;
         font-size: 18px;
         font-weight: 900;
         letter-spacing: 1px;
@@ -74,21 +72,23 @@ function PageStyles() {
         background: rgba(255,255,255,0.07);
         color: #fff;
         font-size: 16px;
-        font-family: 'DM Sans', 'Inter', sans-serif;
+        font-family: 'Helvetica Neue', sans-serif;
         outline: none;
         transition: border-color 0.2s;
         box-sizing: border-box;
       }
       .gg-input::placeholder { color: rgba(255,255,255,0.35); }
       .gg-input:focus { border-color: #00BB2D; }
-      .gg-label {
-        display: block;
-        color: rgba(255,255,255,0.7);
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 6px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+      .gg-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
       .gg-error { color: #ff6b6b; font-size: 13px; margin-top: 4px; }
 
@@ -123,26 +123,215 @@ function PageStyles() {
         position: relative;
         z-index: 1;
         width: 100%;
+        max-width: 1280px;
+        min-height: 100dvh;
+        margin: 0 auto;
+        padding: 48px 64px 64px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(360px, 500px);
+        align-items: center;
+        gap: clamp(24px, 4.5vw, 64px);
+        box-sizing: border-box;
+      }
+      .gg-hero-copy {
+        max-width: 600px;
+        padding-top: 0;
+      }
+      .gg-brand-lockup { display: none; }
+      .gg-hero-eyebrow {
+        display: inline-block;
+        margin: 0 0 16px;
+        padding: 8px 14px;
+        border: 1px solid rgba(0,187,45,0.65);
+        color: #00BB2D;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        line-height: 1.25;
+        text-transform: uppercase;
+      }
+      .gg-hero-title {
+        margin: 0 0 18px;
+        color: #fff;
+        font-family: 'Helvetica Neue', sans-serif;
+        font-size: clamp(38px, 4.2vw, 48px);
+        font-weight: 700;
+        letter-spacing: -1.4px;
+        line-height: 1.04;
+      }
+      .gg-hero-description {
         max-width: 560px;
-        padding: 48px 48px 64px;
+        margin: 0 0 18px;
+        color: rgba(255,255,255,0.82);
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      .gg-hero-benefits {
         display: flex;
         flex-direction: column;
-        gap: 32px;
+        gap: 10px;
+        max-width: 500px;
+      }
+      .gg-hero-benefit {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+        padding: 10px 16px 10px 12px;
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 999px;
+        background: rgba(6,13,26,0.68);
+        color: rgba(255,255,255,0.84);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+      .gg-hero-benefit-arrow {
+        display: grid;
+        flex: 0 0 32px;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 50%;
+        background: #00BB2D;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 1;
+      }
+      .gg-hero-benefit strong { flex: 1; }
+      .gg-form-title {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto 4px;
+        padding: 10px 20px;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 999px;
+        background: rgba(0,0,0,0.58);
+        color: rgba(255,255,255,0.9);
+        font-size: 15px;
+        font-weight: 800;
+        line-height: 1.3;
+        text-align: center;
+      }
+      .gg-form-card {
+        position: relative;
+        top: 140px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 42px 40px 30px;
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 18px;
+        background: rgba(6,13,26,0.78);
+        box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+        backdrop-filter: blur(12px);
+      }
+
+      @media (max-width: 1050px) {
+        .gg-content-wrap {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          max-width: 760px;
+          min-height: auto;
+          padding: 48px 32px 64px;
+          gap: 40px;
+        }
+        .gg-hero-copy,
+        .gg-form-card {
+          width: 100%;
+          max-width: 560px;
+          margin: 0 auto;
+          top: 0;
+        }
       }
 
       @media (max-width: 768px) {
         .gg-photo-wrap {
-          position: relative;
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
           width: 100%;
-          height: 280px;
+          height: 1450px;
           overflow: hidden;
         }
-        .gg-photo-img { object-position: top center; }
-        .gg-grad-left { display: none; }
-        .gg-grad-bottom { height: 55%; }
+        .gg-photo-img {
+          object-position: top center;
+          opacity: 0.25;
+        }
+        .gg-grad-left {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background:
+            linear-gradient(to right, rgba(6,13,26,0.92) 0%, rgba(6,13,26,0.72) 58%, rgba(6,13,26,0.45) 100%),
+            linear-gradient(to bottom, #000 0%, #000 14%, rgba(6,13,26,0.75) 36%, #060D1A 82%, #060D1A 100%);
+        }
+        .gg-grad-bottom {
+          height: 70%;
+          background: linear-gradient(to top, #060D1A 0%, rgba(6,13,26,0.8) 48%, transparent 100%);
+        }
         .gg-content-wrap {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: calc(100% - 58px);
+          max-width: 583px;
+          min-height: auto;
+          margin: 0 auto;
+          padding: 60px 0 64px;
+          gap: 28px;
+          background: transparent;
+        }
+        .gg-hero-copy {
+          width: 100%;
           max-width: 100%;
-          padding: 32px 24px 64px;
+          padding-top: 0;
+        }
+        .gg-brand-lockup {
+          display: block;
+          width: 220px;
+          margin: 0 auto 32px;
+        }
+        .gg-brand-logo {
+          display: block;
+          width: 100%;
+          height: auto;
+        }
+        .gg-hero-eyebrow {
+          width: 100%;
+          box-sizing: border-box;
+          text-align: center;
+        }
+        .gg-hero-title {
+          font-size: 32px;
+          letter-spacing: -0.8px;
+          line-height: 1.1;
+        }
+        .gg-hero-description {
+          margin-bottom: 16px;
+          line-height: 1.2;
+        }
+        .gg-hero-benefit {
+          background: rgba(6,13,26,0.8);
+        }
+        .gg-form-card {
+          max-width: 322px;
+          margin: 0 auto;
+          padding: 32px 24px 24px;
+          border-radius: 14px;
+          background: rgba(6,13,26,0.86);
+        }
+        .gg-form-title {
+          padding: 10px 20px;
+          font-size: 12px;
+        }
+        .green-btn {
+          padding: 20px 12px;
+          font-size: 15px;
+          letter-spacing: 0.5px;
         }
       }
     `}</style>
@@ -196,7 +385,7 @@ export default function GrupoGratis() {
   });
 
   useEffect(() => {
-    document.title = "Grupo Gratuito de Declarações – Samuel Pereira";
+    document.title = "Aula semanal grátis - Samuel Pereira";
   }, []);
 
   const onSubmit = (data: FormValues) => {
@@ -235,7 +424,7 @@ export default function GrupoGratis() {
       style={{
         backgroundColor: BG,
         color: "#fff",
-        fontFamily: "'DM Sans', 'Inter', sans-serif",
+        fontFamily: "'Helvetica Neue', sans-serif",
         overflowX: "hidden",
         minHeight: "100dvh",
         position: "relative",
@@ -255,82 +444,62 @@ export default function GrupoGratis() {
 
       <div className="gg-content-wrap">
         {/* ---- Hero ---- */}
-        <div style={{ textAlign: "center" }}>
-          <p
-            style={{
-              fontSize: "13px",
-              fontWeight: 700,
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              color: "#00BB2D",
-              marginBottom: "12px",
-            }}
-          >
-            Grupo Grátis de declarações diárias
+        <div className="gg-hero-copy">
+          <div className="gg-brand-lockup" aria-hidden="true">
+            <img src="/edg-white.png" alt="" className="gg-brand-logo" />
+          </div>
+          <p className="gg-hero-eyebrow">
+            TODA SEGUNDA · 20H · GOOGLE MEET · GRATUITO
           </p>
-          <h1
-            style={{
-              fontSize: "clamp(26px, 5vw, 38px)",
-              fontWeight: 900,
-              lineHeight: 1.15,
-              fontFamily: "'Montserrat', sans-serif",
-              marginBottom: "16px",
-            }}
-          >
-            Como usar o{" "}
-            <span style={{ color: "#00BB2D" }}>poder das palavras</span>{" "}
-            para imprimir dinheiro na sua vida.
+          <h1 className="gg-hero-title">
+            Você quer melhorar de vida.
+            <br />
+            Mas suas decisões estão te levando pra lá?
           </h1>
-
-        </div>
-
-        {/* ---- Badge animado + Benefícios ---- */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}>
-          {[
-            { icon: "🎙️", text: "Áudio de declaração todo dia, de graça" },
-            { icon: "💸", text: "Declarações específicas para cada uma das cinco áreas da sua vida" },
-            { icon: "", text: "Tudo direto no WhatsApp, sem complicação" },
-          ].map(({ icon, text }) => (
-            <AnimatedGradientText key={text} className="bg-black/60 dark:bg-black/60 shadow-none">
-              {icon}{" "}
-              <hr className="mx-2 h-4 w-px shrink-0 bg-white/30" />
-              <span
-                className={cn(
-                  "inline animate-gradient bg-gradient-to-r from-[#00BB2D] via-[#ffd700] to-[#00BB2D] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-semibold",
-                )}
-              >
-                {text}
-              </span>
-            </AnimatedGradientText>
-          ))}
+          <p className="gg-hero-description">
+            Toda semana, Samuel Pereira conduz uma aula prática e ao vivo para te
+            ajudar a avançar nas áreas que mais mexem com o rumo da sua vida:
+            <br />
+            <strong>dinheiro, mente, emoções, família, corpo e vida espiritual.</strong>
+          </p>
+          <p className="gg-hero-description">
+            Não é mais conteúdo para você salvar e ver depois.
+          </p>
+          <p className="gg-hero-description">
+            É uma aula para entender o que precisa mudar, tomar decisões melhores
+            e começar a colocar sua vida no rumo certo.
+          </p>
+          <div className="gg-hero-benefits">
+            <p className="gg-hero-benefit">
+              <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
+              <strong>Saia de cada aula sabendo o que fazer a seguir</strong>
+            </p>
+            <p className="gg-hero-benefit">
+              <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
+              <strong>Uma área importante da sua vida trabalhada por vez</strong>
+            </p>
+          </div>
         </div>
 
         {/* ---- Form ---- */}
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-          noValidate
-        >
-          <p
-            style={{
-              fontSize: "15px",
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.85)",
-              marginBottom: "4px",
-              textAlign: "center",
-            }}
+        <div className="gg-form-card">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+            noValidate
           >
-            Preencha abaixo para entrar no grupo:
+          <p className="gg-form-title">
+            Segunda-feira às 20h. Sem replay.
           </p>
 
           <div>
-            <label className="gg-label" htmlFor="gg-name">
-              Nome completo
+            <label className="gg-sr-only" htmlFor="gg-name">
+              Seu nome
             </label>
             <input
               id="gg-name"
               className="gg-input"
-              placeholder="Seu nome"
+              placeholder="SEU NOME"
               autoComplete="name"
               {...form.register("name")}
             />
@@ -340,31 +509,14 @@ export default function GrupoGratis() {
           </div>
 
           <div>
-            <label className="gg-label" htmlFor="gg-email">
-              E-mail
-            </label>
-            <input
-              id="gg-email"
-              type="email"
-              className="gg-input"
-              placeholder="seu@email.com"
-              autoComplete="email"
-              {...form.register("email")}
-            />
-            {form.formState.errors.email && (
-              <p className="gg-error">{form.formState.errors.email.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="gg-label" htmlFor="gg-whatsapp">
-              WhatsApp com DDI
+            <label className="gg-sr-only" htmlFor="gg-whatsapp">
+              Seu WhatsApp
             </label>
             <input
               id="gg-whatsapp"
               type="tel"
               className="gg-input"
-              placeholder="Seu número do Whatsapp"
+              placeholder="SEU WHATSAPP"
               autoComplete="tel"
               {...form.register("whatsapp")}
             />
@@ -375,6 +527,36 @@ export default function GrupoGratis() {
             )}
           </div>
 
+          <div>
+            <label className="gg-sr-only" htmlFor="gg-email">
+              Seu melhor e-mail
+            </label>
+            <input
+              id="gg-email"
+              type="email"
+              className="gg-input"
+              placeholder="SEU MELHOR E-MAIL"
+              autoComplete="email"
+              {...form.register("email")}
+            />
+            {form.formState.errors.email && (
+              <p className="gg-error">{form.formState.errors.email.message}</p>
+            )}
+          </div>
+
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 1.5,
+              color: "rgba(255,255,255,0.72)",
+              textAlign: "center",
+              margin: "0 0 2px",
+            }}
+          >
+            Ao se inscrever, você será direcionado para o grupo onde os avisos
+            e o link da aula são enviados.
+          </p>
+
           {submitError && (
             <p style={{ color: "#ff6b6b", fontSize: "14px", textAlign: "center" }}>
               {submitError}
@@ -382,20 +564,39 @@ export default function GrupoGratis() {
           )}
 
           <button type="submit" className="green-btn" disabled={joinFreeGroup.isPending}>
-            {joinFreeGroup.isPending ? "Entrando..." : "QUERO ENTRAR NO GRUPO GRATUITO"}
+            {joinFreeGroup.isPending ? "Entrando..." : "QUERO PARTICIPAR DAS AULAS"}
           </button>
-        </form>
 
-        <p
-          style={{
-            fontSize: "12px",
-            color: "rgba(255,255,255,0.35)",
-            textAlign: "center",
-            lineHeight: 1.5,
-          }}
-        >
-          Seus dados estão seguros. Não enviamos spam.
-        </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "8px 16px",
+              color: "rgba(255,255,255,0.72)",
+              fontSize: "13px",
+              lineHeight: 1.5,
+            }}
+          >
+            <span>✓ Gratuito</span>
+            <span>✓ Ao vivo</span>
+            <span>✓ Google Meet</span>
+            <span>✓ Sem replay</span>
+          </div>
+          </form>
+
+          <p
+            style={{
+              fontSize: "12px",
+              color: "rgba(255,255,255,0.35)",
+              textAlign: "center",
+              lineHeight: 1.5,
+              margin: "20px 0 0",
+            }}
+          >
+            Seus dados estão seguros. Não enviamos spam.
+          </p>
+        </div>
       </div>
     </div>
   );

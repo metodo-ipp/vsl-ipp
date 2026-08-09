@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { db, freeGroupLeadsTable } from "@workspace/db";
+import { db, edgLeadsAulaSemanalGratisTable } from "@workspace/db";
 import { JoinFreeGroupBody } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -15,7 +15,7 @@ router.post("/free-group/join", async (req, res): Promise<void> => {
   const body = parsed.data;
 
   const [lead] = await db
-    .insert(freeGroupLeadsTable)
+    .insert(edgLeadsAulaSemanalGratisTable)
     .values({
       name: body.name,
       email: body.email,
@@ -27,7 +27,7 @@ router.post("/free-group/join", async (req, res): Promise<void> => {
       utmTerm: body.utmTerm ?? null,
       landingUrl: body.landingUrl ?? null,
     })
-    .returning({ id: freeGroupLeadsTable.id });
+    .returning({ id: edgLeadsAulaSemanalGratisTable.id });
 
   res.status(201).json({ leadId: lead!.id });
 });
