@@ -482,19 +482,20 @@ export default function GrupoGratis() {
             <img src="/edg-white.png" alt="" className="gg-brand-logo" />
           </div>
           <p className="gg-hero-eyebrow">
-            TODA SEGUNDA · 20H · GOOGLE MEET · GRATUITO
+            TODA SEGUNDA · 20H · AO VIVO NO GOOGLE MEET · GRATUITO
           </p>
           <h1 className="gg-hero-title">
-            Descubra a trava invisível que pode estar impedindo você de avançar na
-            sua prosperidade.
+            A Trava Invisível: Você quer avançar, mas continua repetindo os mesmos
+            resultados?
           </h1>
           <p className="gg-hero-description">
-            Nesta segunda-feira, eu vou te mostrar ao vivo os padrões que podem
-            estar mantendo pessoas presas aos mesmos resultados, e como começar
-            a identificá-los.
+            Nesta segunda-feira, eu vou te mostrar ao vivo como identificar o que
+            está por trás dessas repetições e começar a agir de forma diferente.
           </p>
           <p className="gg-hero-description">
-            Não é mais conteúdo para você salvar e ver depois.
+            Não é mais conteúdo para salvar e assistir depois. É uma aula prática
+            para olhar com clareza para uma área da sua vida e sair sabendo o que
+            fazer a seguir.
           </p>
           <p className="gg-hero-description">
             É uma aula para entender o que precisa mudar, tomar decisões melhores
@@ -503,13 +504,12 @@ export default function GrupoGratis() {
           <div className="gg-hero-benefits">
             <p className="gg-hero-benefit">
               <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
-              <strong>Como identificar padrões que continuam se repetindo na sua vida.</strong>
+              <strong>Como identificar os padrões que continuam influenciando suas decisões.</strong>
             </p>
             <p className="gg-hero-benefit">
               <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
               <strong>
-                Como aplicar esses princípios nas áreas que mais impactam sua vida:
-                dinheiro, família, mente, emoções, corpo e vida espiritual.
+                Como aplicar essa clareza às áreas que mais impactam sua vida.
               </strong>
             </p>
           </div>
@@ -523,7 +523,20 @@ export default function GrupoGratis() {
             noValidate
           >
           <p className="gg-form-title">
-            Segunda-feira às 20h. Sem replay.
+            Segunda-feira, às 20h. Ao vivo. Sem replay.
+          </p>
+
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 1.5,
+              color: "rgba(255,255,255,0.72)",
+              textAlign: "center",
+              margin: "0 0 2px",
+            }}
+          >
+            Preencha seus dados para entrar no grupo e receber os avisos e o link
+            da aula.
           </p>
 
           <div>
@@ -577,19 +590,6 @@ export default function GrupoGratis() {
               <p className="gg-error">{form.formState.errors.email.message}</p>
             )}
           </div>
-
-          <p
-            style={{
-              fontSize: "14px",
-              lineHeight: 1.5,
-              color: "rgba(255,255,255,0.72)",
-              textAlign: "center",
-              margin: "0 0 2px",
-            }}
-          >
-            Ao se inscrever, você será direcionado para o grupo onde os avisos
-            e o link da aula são enviados.
-          </p>
 
           {submitError && (
             <p style={{ color: "#ff6b6b", fontSize: "14px", textAlign: "center" }}>
