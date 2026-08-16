@@ -485,15 +485,13 @@ export default function GrupoGratis() {
             TODA SEGUNDA · 20H · GOOGLE MEET · GRATUITO
           </p>
           <h1 className="gg-hero-title">
-            Você quer uma vida acima da média.
-            <br />
-            Mas ainda toma decisões como a maioria.
+            Descubra a trava invisível que pode estar impedindo você de avançar na
+            sua prosperidade.
           </h1>
           <p className="gg-hero-description">
-            Toda semana, Samuel Pereira conduz uma aula prática e ao vivo para te
-            ajudar a avançar nas áreas que mais mexem com o rumo da sua vida:
-            <br />
-            <strong>dinheiro, mente, emoções, família, corpo e vida espiritual.</strong>
+            Nesta segunda-feira, eu vou te mostrar ao vivo os padrões que podem
+            estar mantendo pessoas presas aos mesmos resultados, e como começar
+            a identificá-los.
           </p>
           <p className="gg-hero-description">
             Não é mais conteúdo para você salvar e ver depois.
@@ -505,11 +503,14 @@ export default function GrupoGratis() {
           <div className="gg-hero-benefits">
             <p className="gg-hero-benefit">
               <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
-              <strong>Saia de cada aula sabendo o que fazer a seguir</strong>
+              <strong>Como identificar padrões que continuam se repetindo na sua vida.</strong>
             </p>
             <p className="gg-hero-benefit">
               <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
-              <strong>Uma área importante da sua vida trabalhada por vez</strong>
+              <strong>
+                Como aplicar esses princípios nas áreas que mais impactam sua vida:
+                dinheiro, família, mente, emoções, corpo e vida espiritual.
+              </strong>
             </p>
           </div>
         </div>
