@@ -3,11 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useJoinFreeGroup } from "@workspace/api-client-react";
+import { ensureMetaPixel, trackMetaPixelPageView } from "@/lib/meta-pixel";
 
 // ---------------------------------------------------------------------------
 // Configurações
 // ---------------------------------------------------------------------------
 const GROUP_URL = "https://chat.whatsapp.com/FqvP9CLNYwAFHYgnEEqfPI";
+const META_PIXEL_ID = "1361984078704850";
 
 // ---------------------------------------------------------------------------
 // Styles helper (injected once via JSX)
@@ -386,6 +388,8 @@ export default function GrupoGratis() {
 
   useEffect(() => {
     document.title = "Aula semanal grátis - Samuel Pereira";
+    ensureMetaPixel(META_PIXEL_ID);
+    trackMetaPixelPageView(META_PIXEL_ID, window.location.href);
   }, []);
 
   const onSubmit = (data: FormValues) => {
