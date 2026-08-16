@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useJoinFreeGroup } from "@workspace/api-client-react";
-import { ensureMetaPixel, trackMetaPixelPageView } from "@/lib/meta-pixel";
+import {
+  ensureMetaPixel,
+  trackMetaPixelLead,
+  trackMetaPixelPageView,
+} from "@/lib/meta-pixel";
 
 // ---------------------------------------------------------------------------
 // Configurações
@@ -363,7 +367,7 @@ type FormValues = z.infer<typeof formSchema>;
 // ---------------------------------------------------------------------------
 // UTM helpers
 // ---------------------------------------------------------------------------
-function getUtmParams() {
+function getAttributionParams() {
   const params = new URLSearchParams(window.location.search);
   return {
     utm_source: params.get("utm_source"),
@@ -371,6 +375,11 @@ function getUtmParams() {
     utm_campaign: params.get("utm_campaign"),
     utm_content: params.get("utm_content"),
     utm_term: params.get("utm_term"),
+    campaign_id: params.get("campaign_id"),
+    adset_id: params.get("adset_id"),
+    ad_id: params.get("ad_id"),
+    placement: params.get("placement"),
+    fbclid: params.get("fbclid"),
   };
 }
 
@@ -380,6 +389,8 @@ function getUtmParams() {
 export default function GrupoGratis() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const joinFreeGroup = useJoinFreeGroup();
+  const submissionStartedRef = useRef(false);
+  const submissionSucceededRef = useRef(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -393,8 +404,11 @@ export default function GrupoGratis() {
   }, []);
 
   const onSubmit = (data: FormValues) => {
+    if (submissionStartedRef.current || joinFreeGroup.isPending) return;
+
+    submissionStartedRef.current = true;
     setSubmitError(null);
-    const utmParams = getUtmParams();
+    const attributionParams = getAttributionParams();
 
     joinFreeGroup.mutate(
       {
@@ -402,19 +416,34 @@ export default function GrupoGratis() {
           name: data.name,
           email: data.email,
           whatsapp: data.whatsapp.replace(/\D/g, ""),
-          utmSource: utmParams.utm_source,
-          utmMedium: utmParams.utm_medium,
-          utmCampaign: utmParams.utm_campaign,
-          utmContent: utmParams.utm_content,
-          utmTerm: utmParams.utm_term,
+          utmSource: attributionParams.utm_source,
+          utmMedium: attributionParams.utm_medium,
+          utmCampaign: attributionParams.utm_campaign,
+          utmContent: attributionParams.utm_content,
+          utmTerm: attributionParams.utm_term,
           landingUrl: window.location.href,
         },
       },
       {
-        onSuccess: () => {
-          window.location.href = GROUP_URL;
+        onSuccess: ({ leadId }) => {
+          if (submissionSucceededRef.current) return;
+
+          submissionSucceededRef.current = true;
+          const redirectToGroup = () => {
+            window.location.href = GROUP_URL;
+          };
+          let leadTracked = false;
+
+          try {
+            ensureMetaPixel(META_PIXEL_ID);
+            leadTracked = trackMetaPixelLead(META_PIXEL_ID, leadId);
+          } finally {
+            if (leadTracked) window.setTimeout(redirectToGroup, 250);
+            else redirectToGroup();
+          }
         },
         onError: () => {
+          submissionStartedRef.current = false;
           setSubmitError("Ocorreu um erro. Tente novamente.");
         },
       }
