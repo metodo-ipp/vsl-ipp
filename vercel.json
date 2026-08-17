@@ -6,6 +6,11 @@
       "source": "/entrar-wpp-cid",
       "destination": "https://chat.whatsapp.com/CMw3OqxTM5b8hWy4UAhxGb",
       "permanent": false
+    },
+    {
+      "source": "/entrar-wpp-edg",
+      "destination": "https://chat.whatsapp.com/GbHkxkAXYtB4oPDtXNlVXu",
+      "permanent": false
     }
   ],
   "rewrites": [
