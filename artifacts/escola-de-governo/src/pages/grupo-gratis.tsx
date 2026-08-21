@@ -14,6 +14,7 @@ import {
 // ---------------------------------------------------------------------------
 const GROUP_URL = "https://chat.whatsapp.com/FqvP9CLNYwAFHYgnEEqfPI";
 const META_PIXEL_ID = "1361984078704850";
+const NO_EMAIL_PLACEHOLDER = "sem-email@cadastro.invalid";
 
 // ---------------------------------------------------------------------------
 // Styles helper (injected once via JSX)
@@ -394,7 +395,7 @@ export default function GrupoGratis() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", email: "", whatsapp: "" },
+    defaultValues: { name: "", email: NO_EMAIL_PLACEHOLDER, whatsapp: "" },
   });
 
   useEffect(() => {
@@ -485,31 +486,26 @@ export default function GrupoGratis() {
             TODA SEGUNDA · 20H · AO VIVO NO GOOGLE MEET · GRATUITO
           </p>
           <h1 className="gg-hero-title">
-            A Trava Invisível: Você quer avançar, mas continua repetindo os mesmos
-            resultados?
+            Eu já tive mais de R$300 mil em dívidas. Nesta segunda, vou te mostrar o que aprendi para começar a sair delas.
           </h1>
           <p className="gg-hero-description">
-            Nesta segunda-feira, eu vou te mostrar ao vivo como identificar o que
-            está por trás dessas repetições e começar a agir de forma diferente.
+            Se o dinheiro entra e já tem dono, se as parcelas não acabam e se você sente que trabalha só para pagar decisões do passado, essa aula é para você.
           </p>
           <p className="gg-hero-description">
-            Não é mais conteúdo para salvar e assistir depois. É uma aula prática
-            para olhar com clareza para uma área da sua vida e sair sabendo o que
-            fazer a seguir.
+            Eu conheço essa sensação. Já cheguei a ter mais de R$300 mil em dívidas — e precisei aprender, na prática, o que fazer para parar de cavar o buraco e começar a construir uma saída.
           </p>
           <p className="gg-hero-description">
-            É uma aula para entender o que precisa mudar, tomar decisões melhores
-            e começar a colocar sua vida no rumo certo.
+            Nesta segunda-feira, às 20h, eu vou abrir uma aula gratuita e ao vivo para te mostrar como começar a enfrentar suas dívidas com mais clareza, estratégia e direção.
           </p>
           <div className="gg-hero-benefits">
             <p className="gg-hero-benefit">
               <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
-              <strong>Como identificar os padrões que continuam influenciando suas decisões.</strong>
+              <strong>Como parar de repetir as decisões que mantêm você preso nas dívidas.</strong>
             </p>
             <p className="gg-hero-benefit">
               <span className="gg-hero-benefit-arrow" aria-hidden="true">→</span>
               <strong>
-                Como aplicar essa clareza às áreas que mais impactam sua vida.
+                Por onde começar quando parece que o dinheiro nunca é suficiente para colocar tudo em ordem.
               </strong>
             </p>
           </div>
@@ -571,23 +567,6 @@ export default function GrupoGratis() {
               <p className="gg-error">
                 {form.formState.errors.whatsapp.message}
               </p>
-            )}
-          </div>
-
-          <div>
-            <label className="gg-sr-only" htmlFor="gg-email">
-              Seu melhor e-mail
-            </label>
-            <input
-              id="gg-email"
-              type="email"
-              className="gg-input"
-              placeholder="SEU MELHOR E-MAIL"
-              autoComplete="email"
-              {...form.register("email")}
-            />
-            {form.formState.errors.email && (
-              <p className="gg-error">{form.formState.errors.email.message}</p>
             )}
           </div>
 
