@@ -308,6 +308,8 @@ export default function CidFunil() {
   const isMounted = useRef(true);
   const historyRef = useRef<HTMLDivElement>(null);
   const vslPlayerRef = useRef<HTMLDivElement>(null);
+  const vslBubbleRef = useRef<HTMLDivElement>(null);
+  const pitchCtaRef = useRef<HTMLDivElement>(null);
 
   const activeStep =
     currentQuestionIndex === null ? null : QUESTION_STEPS[currentQuestionIndex];
@@ -356,8 +358,71 @@ export default function CidFunil() {
   useEffect(() => {
     const history = historyRef.current;
     if (!history) return;
-    history.scrollTo({ top: history.scrollHeight, behavior: "smooth" });
-  }, [messages, isTyping]);
+
+    const frame = window.requestAnimationFrame(() => {
+      history.scrollTo({ top: history.scrollHeight, behavior: "smooth" });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [messages, isTyping, showVsl]);
+
+  useEffect(() => {
+    if (!showVsl) return;
+
+    const history = historyRef.current;
+    const vslBubble = vslBubbleRef.current;
+    const pitchCta = pitchCtaRef.current;
+    if (!history || !vslBubble || !pitchCta) return;
+
+    let scrollFrame: number | null = null;
+    const scrollToBottom = () => {
+      if (scrollFrame !== null) {
+        window.cancelAnimationFrame(scrollFrame);
+      }
+
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = null;
+        history.scrollTo({ top: history.scrollHeight, behavior: "smooth" });
+      });
+    };
+
+    const isVisible = (element: HTMLElement) => {
+      const styles = window.getComputedStyle(element);
+      return (
+        styles.display !== "none" &&
+        styles.visibility !== "hidden" &&
+        styles.opacity !== "0" &&
+        element.getClientRects().length > 0
+      );
+    };
+
+    scrollToBottom();
+
+    let wasCtaVisible = isVisible(pitchCta);
+    const mutationObserver = new MutationObserver(() => {
+      const ctaIsVisible = isVisible(pitchCta);
+      if (ctaIsVisible && !wasCtaVisible) {
+        scrollToBottom();
+      }
+      wasCtaVisible = ctaIsVisible;
+    });
+    mutationObserver.observe(vslBubble, {
+      attributes: true,
+      attributeFilter: ["aria-hidden", "class", "hidden", "style"],
+      subtree: true,
+    });
+
+    const resizeObserver = new ResizeObserver(scrollToBottom);
+    resizeObserver.observe(vslBubble);
+
+    return () => {
+      mutationObserver.disconnect();
+      resizeObserver.disconnect();
+      if (scrollFrame !== null) {
+        window.cancelAnimationFrame(scrollFrame);
+      }
+    };
+  }, [showVsl]);
 
   useEffect(() => {
     if (!showVsl) return;
@@ -584,9 +649,13 @@ export default function CidFunil() {
             ))}
             {showVsl && group === lastBotGroup && (
               <div className="cid-bot-line cid-vsl-line">
-                <div className="cid-vsl-bubble" aria-label="VSL Como Imprimir Dinheiro com Suas Palavras">
+                <div
+                  ref={vslBubbleRef}
+                  className="cid-vsl-bubble"
+                  aria-label="VSL Como Imprimir Dinheiro com Suas Palavras"
+                >
                   <div ref={vslPlayerRef} className="cid-vturb-player" />
-                  <div className="cid-pitch-cta">
+                  <div ref={pitchCtaRef} className="cid-pitch-cta">
                     <a className="cid-pitch-button smartplayer-click-event" href={checkoutUrl} onClick={handlePitchClick}>
                       QUERO MINHA TRANSFORMAÇÃO AGORA
                     </a>
