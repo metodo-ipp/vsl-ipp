@@ -32,7 +32,7 @@ type VturbSmartPlayerElement = HTMLElement & {
   ) => void;
 };
 
-const CHECKOUT_URL = "https://hub.la/r/fb-ads";
+const CHECKOUT_URL = "https://hub.la/r/fb-ads-2";
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string | undefined;
 const FUNNEL_NAME = "cid_v2_conversacional";
 const START_BUTTON_LABEL = "Sim, quero descobrir";
