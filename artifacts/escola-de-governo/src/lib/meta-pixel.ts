@@ -13,6 +13,7 @@ declare global {
     __metaPixelInitializedIds?: Set<string>;
     __metaPixelPageViewKeys?: Set<string>;
     __metaPixelLeadKeys?: Set<string>;
+    __metaPixelCustomEventKeys?: Set<string>;
   }
 }
 
@@ -23,11 +24,13 @@ function getMetaPixelState() {
   window.__metaPixelInitializedIds ??= new Set<string>();
   window.__metaPixelPageViewKeys ??= new Set<string>();
   window.__metaPixelLeadKeys ??= new Set<string>();
+  window.__metaPixelCustomEventKeys ??= new Set<string>();
 
   return {
     initializedIds: window.__metaPixelInitializedIds,
     pageViewKeys: window.__metaPixelPageViewKeys,
     leadKeys: window.__metaPixelLeadKeys,
+    customEventKeys: window.__metaPixelCustomEventKeys,
   };
 }
 
@@ -121,5 +124,74 @@ export function trackMetaPixelLead(pixelId: string, submissionKey: string) {
   }
 
   fbq("track", "Lead");
+  return true;
+}
+
+export function trackMetaPixelCustomEvent(
+  pixelId: string,
+  eventName: string,
+  eventKey: string,
+  parameters: Record<string, unknown> = {},
+) {
+  if (typeof window === "undefined" || !pixelId || !eventName || !eventKey) {
+    return false;
+  }
+
+  const fbq = getOrCreateMetaPixelFunction();
+  const { customEventKeys } = getMetaPixelState();
+  const key = `${pixelId}:${eventKey}`;
+  const storageKey = `meta_pixel_custom_event:${key}`;
+
+  if (customEventKeys.has(key)) return false;
+
+  try {
+    if (window.sessionStorage.getItem(storageKey)) {
+      customEventKeys.add(key);
+      return false;
+    }
+  } catch {
+    // O rastreamento continua funcionando mesmo se o navegador bloquear o storage.
+  }
+
+  customEventKeys.add(key);
+  try {
+    window.sessionStorage.setItem(storageKey, "1");
+  } catch {
+    // A deduplicação em memória continua válida durante a sessão atual.
+  }
+
+  fbq("trackCustom", eventName, parameters);
+  return true;
+}
+
+export function trackMetaPixelViewContent(pixelId: string, contentName: string) {
+  if (typeof window === "undefined" || !pixelId || !contentName) {
+    return false;
+  }
+
+  const fbq = getOrCreateMetaPixelFunction();
+  const { customEventKeys } = getMetaPixelState();
+  const key = `${pixelId}:view_content:${contentName}`;
+  const storageKey = `meta_pixel_view_content:${key}`;
+
+  if (customEventKeys.has(key)) return false;
+
+  try {
+    if (window.sessionStorage.getItem(storageKey)) {
+      customEventKeys.add(key);
+      return false;
+    }
+  } catch {
+    // O rastreamento continua funcionando mesmo se o navegador bloquear o storage.
+  }
+
+  customEventKeys.add(key);
+  try {
+    window.sessionStorage.setItem(storageKey, "1");
+  } catch {
+    // A deduplicação em memória continua válida durante a sessão atual.
+  }
+
+  fbq("track", "ViewContent", { content_name: contentName });
   return true;
 }

@@ -1,0 +1,408 @@
+@import url("https://fonts.bunny.net/css?family=roboto:400,600,700");
+
+.cid-funnel-page {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  color: #fff;
+  background-color: #111;
+  background-image: url("https://s3.typebotstorage.com/public/workspaces/clavmnhof000ckz08kit5ooda/typebots/cmrmwpdsw000209hupbf3l5vh/background?v=1784248790343");
+  background-position: 50% 50%;
+  background-repeat: repeat;
+  background-size: cover;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+.cid-chat-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cid-chat-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cid-chat-view {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  box-sizing: border-box;
+}
+
+.cid-chat-content {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 20px 32px;
+  box-sizing: border-box;
+}
+
+.cid-message-chunk {
+  width: 100%;
+  animation: cid-message-in 0.4s ease both;
+}
+
+.cid-bot-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.cid-avatar-slot {
+  display: flex;
+  width: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+}
+
+.cid-avatar-slot img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.cid-bot-stack {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.cid-bot-line {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.cid-bot-bubble {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid rgb(102, 100, 96);
+  border-radius: 6px;
+  background-color: rgb(7, 94, 84);
+  color: #fff;
+  box-sizing: border-box;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.cid-row-with-vsl .cid-avatar-slot {
+  align-items: flex-start;
+  padding-top: 8px;
+}
+
+.cid-vsl-line {
+  align-items: flex-start;
+}
+
+.cid-vsl-bubble {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  padding: 0;
+  border: 1px solid rgb(102, 100, 96);
+  border-radius: 6px;
+  background-color: #000;
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.cid-vturb-player,
+.cid-vturb-player > vturb-smartplayer,
+.cid-vsl-bubble .vturb-player-placeholder {
+  display: block;
+  width: 100% !important;
+  max-width: 400px;
+}
+
+.cid-pitch-cta {
+  display: none;
+  padding: 16px 12px 14px;
+  background: rgb(7, 94, 84);
+  box-sizing: border-box;
+  line-height: normal;
+}
+
+.cid-pitch-button {
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 14px 18px;
+  border: none;
+  border-bottom: 3px solid #027f20;
+  border-radius: 10px;
+  background: radial-gradient(165.91% 647.63% at 45.92% -308.33%, #00bb2d 0%, #009624 100%);
+  color: #fff;
+  cursor: pointer;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: filter 0.2s ease;
+}
+
+.cid-pitch-button::before {
+  position: absolute;
+  top: -10%;
+  left: -80px;
+  width: 60px;
+  height: 120%;
+  background: #fff;
+  box-shadow: 0 0 30px 20px rgba(255, 255, 255, 0.97);
+  content: "";
+  opacity: 0;
+  transform: skewX(-20deg);
+  mix-blend-mode: plus-lighter;
+  animation: cid-pitch-shine 3s linear infinite;
+}
+
+.cid-pitch-button:hover,
+.cid-pitch-button:focus-visible {
+  filter: brightness(1.08);
+  outline: none;
+}
+
+.cid-pitch-button:active {
+  filter: brightness(0.9);
+}
+
+.cid-pitch-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 12px;
+  color: #00bb2d;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+}
+
+@keyframes cid-pitch-shine {
+  0% {
+    left: -80px;
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  45% {
+    left: 110%;
+    opacity: 1;
+  }
+
+  46%,
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}
+
+.cid-user-row {
+  display: flex;
+  width: calc(100% - 50px);
+  margin-left: 50px;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cid-user-stack {
+  display: flex;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.cid-user-bubble {
+  display: flex;
+  max-width: 100%;
+  flex-direction: column;
+  padding: 1px;
+  border: 1px solid rgb(47, 188, 110);
+  border-radius: 6px;
+  background-color: rgb(27, 141, 78);
+  color: #fff;
+  box-sizing: border-box;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.cid-user-bubble span {
+  display: block;
+  padding: 7px 15px;
+}
+
+.cid-typing-row {
+  animation: none;
+}
+
+.cid-typing-bubble {
+  width: 64px;
+  min-width: 64px;
+  height: 32px;
+  min-height: 32px;
+  justify-content: center;
+  gap: 4px;
+}
+
+.cid-typing-bubble span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: #fff;
+  opacity: 0.5;
+  animation: cid-chat-bubbles 1s ease-in-out infinite;
+}
+
+.cid-typing-bubble span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.cid-typing-bubble span:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.cid-options {
+  display: flex;
+  width: calc(100% - 50px);
+  margin-left: 50px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  animation: cid-message-in 0.4s ease both;
+}
+
+.cid-option,
+.cid-final-button {
+  display: flex;
+  min-height: 42px;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 1px solid rgb(47, 188, 110);
+  border-radius: 6px;
+  background-color: rgb(47, 188, 110);
+  color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: filter 0.2s ease;
+}
+
+.cid-option:hover,
+.cid-option:focus-visible,
+.cid-final-button:hover,
+.cid-final-button:focus-visible {
+  filter: brightness(0.9);
+  outline: none;
+}
+
+.cid-option:active,
+.cid-final-button:active {
+  filter: brightness(0.75);
+}
+
+.cid-final-actions {
+  width: calc(100% - 50px);
+  margin-left: 50px;
+  animation: cid-message-in 0.4s ease both;
+}
+
+.cid-final-button {
+  width: 100%;
+}
+
+@keyframes cid-message-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cid-chat-bubbles {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
+@media (max-width: 639px) {
+  .cid-chat-content {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .cid-avatar-slot {
+    width: 24px;
+    min-width: 24px;
+  }
+
+  .cid-avatar-slot img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .cid-bot-row {
+    gap: 4px;
+  }
+
+  .cid-user-row,
+  .cid-options,
+  .cid-final-actions {
+    width: calc(100% - 28px);
+    margin-left: 28px;
+  }
+}
