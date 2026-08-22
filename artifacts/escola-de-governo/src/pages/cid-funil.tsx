@@ -587,7 +587,7 @@ export default function CidFunil() {
                 <div className="cid-vsl-bubble" aria-label="VSL Como Imprimir Dinheiro com Suas Palavras">
                   <div ref={vslPlayerRef} className="cid-vturb-player" />
                   <div className="cid-pitch-cta">
-                    <a className="cid-pitch-button" href={checkoutUrl} onClick={handlePitchClick}>
+                    <a className="cid-pitch-button smartplayer-click-event" href={checkoutUrl} onClick={handlePitchClick}>
                       QUERO MINHA TRANSFORMAÇÃO AGORA
                     </a>
                     <div className="cid-pitch-badges">
