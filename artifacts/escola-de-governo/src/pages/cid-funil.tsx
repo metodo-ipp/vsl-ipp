@@ -35,7 +35,7 @@ type VturbSmartPlayerElement = HTMLElement & {
 const CHECKOUT_URL = "https://hub.la/r/fb-ads-2";
 const META_PIXEL_ID = import.meta.env.VITE_META_PIXEL_ID as string | undefined;
 const FUNNEL_NAME = "cid_v2_conversacional";
-const START_BUTTON_LABEL = "Sim, quero descobrir";
+const START_BUTTON_LABEL = "Sim, quero responder";
 const PITCH_DELAY_SECONDS = 9 * 60 + 10;
 const PITCH_CTA_SELECTOR = ".cid-pitch-cta";
 const VTURB_PLAYER_ID = "vid-6a892e63245921387e3bf113";
@@ -86,162 +86,46 @@ const QUESTION_STEPS: FunnelStep[] = [
       { label: "Eu vou prosperar", value: "eu_vou_prosperar" },
     ],
   },
-  {
-    id: "attempts",
-    prompt: "O que você já tentou fazer para melhorar sua vida financeira?",
-    options: [
-      { label: "Trabalhar mais", value: "trabalhar_mais" },
-      { label: "Economizar", value: "economizar" },
-      { label: "Buscar renda extra", value: "buscar_renda_extra" },
-      { label: "Fazer cursos", value: "fazer_cursos" },
-      { label: "Já tentei várias coisas", value: "tentei_varias_coisas" },
-    ],
-  },
-  {
-    id: "belief",
-    prompt: "Você acredita que aquilo que você pensa e fala todos os dias pode influenciar suas decisões e seus resultados?",
-    options: [
-      { label: "Sim, acredito", value: "sim_acredito" },
-      { label: "Faz sentido", value: "faz_sentido" },
-      { label: "Nunca pensei nisso", value: "nunca_pensei_nisso" },
-      { label: "Tenho dúvidas", value: "tenho_duvidas" },
-    ],
-  },
-  {
-    id: "mechanism",
-    prompt: "Qual parte você mais gostaria de aprender?",
-    options: [
-      { label: "O que declarar", value: "o_que_declarar" },
-      { label: "Como declarar", value: "como_declarar" },
-      { label: "Quando declarar", value: "quando_declarar" },
-      { label: "O que sentir", value: "o_que_sentir" },
-      { label: "Quero aprender tudo", value: "aprender_tudo" },
-    ],
-  },
 ];
 
 const INITIAL_MESSAGES: Message[] = [
   {
     id: 1,
     role: "bot",
-    text: "A vida que você deseja já existe.",
+    text: "Você não está apenas falando sobre dinheiro. Todos os dias, suas palavras influenciam sua fé, suas decisões e as ações que constroem sua vida financeira.",
   },
   {
     id: 2,
     role: "bot",
-    text: "Mas talvez exista algo que está te afastando dela sem você perceber.",
+    text: "Eu já tive mais de R$300 mil em dívidas. A virada começou quando entendi como usar minhas declarações com direção, e não como frases soltas.",
   },
   {
     id: 3,
     role: "bot",
-    text: "As palavras que você repete todos os dias podem estar construindo a realidade que você vive hoje.",
+    text: "O PADRÃO DE PALAVRAS QUE PODE ESTAR MANTENDO SUA VIDA FINANCEIRA TRAVADA\n\nNa aula Como Imprimir Dinheiro com Suas Palavras, veja como alinhar suas palavras, sua fé e suas ações para tomar decisões com mais direção.",
   },
   {
     id: 4,
     role: "bot",
-    text: "Eu sei disso porque eu já vivi uma fase onde parecia impossível mudar.",
-  },
-  {
-    id: 5,
-    role: "bot",
-    text: "Eu tinha mais de R$ 300 mil em dívidas, minha realidade financeira era completamente diferente...",
-  },
-  {
-    id: 6,
-    role: "bot",
-    text: "Até que eu comecei a entender o poder das minhas palavras.",
-  },
-  {
-    id: 7,
-    role: "bot",
-    text: "Aprendi a declarar de uma forma diferente e comecei a construir a vida que eu vivo hoje.",
-  },
-  {
-    id: 8,
-    role: "bot",
-    text: "Hoje eu tenho uma empresa próspera, moro em um dos melhores condomínios da minha cidade e vivo uma realidade que um dia parecia distante.",
-  },
-  {
-    id: 9,
-    role: "bot",
-    text: "Agora eu quero entender a sua realidade e te mostrar como esses princípios podem fazer sentido para você.",
-  },
-  {
-    id: 10,
-    role: "bot",
-    text: "Posso te fazer algumas perguntas rápidas?",
-  },
-  {
-    id: 11,
-    role: "bot",
-    text: "Vamos começar?",
+    text: "Preparei uma aula gratuita em quatro etapas: o que declarar, como declarar, quando declarar e o que sentir enquanto declara.\n\nAntes, responda três perguntas rápidas para eu direcionar a aula para a sua realidade.",
   },
 ];
 
 function nextMessagesFor(stepIndex: number): string[] {
   if (stepIndex === 0) {
     return [
-      "Entendi.",
-      "Então é essa realidade que você quer começar a construir.",
-      "Agora eu quero entender o que mais tem pesado para você hoje.",
-      QUESTION_STEPS[1].prompt,
+      `Entendi. Agora vamos identificar o que mais está pesando para você.\n\n${QUESTION_STEPS[1].prompt}`,
     ];
   }
 
   if (stepIndex === 1) {
     return [
-      "Obrigado por me responder.",
-      "Muita gente tenta mudar a vida financeira olhando apenas para fora...",
-      "Mas existe algo que quase ninguém observa:",
-      "As palavras que essa pessoa repete todos os dias.",
-      QUESTION_STEPS[2].prompt,
-    ];
-  }
-
-  if (stepIndex === 2) {
-    return [
-      "Percebe uma coisa?",
-      "Talvez você nunca tenha chamado isso de declaração.",
-      "Mas toda vez que você repete uma frase sobre dinheiro, você está declarando algo sobre a sua vida.",
-      "A questão é:",
-      "Será que as suas palavras estão trabalhando a favor da vida que você quer construir?",
-      QUESTION_STEPS[3].prompt,
-    ];
-  }
-
-  if (stepIndex === 3) {
-    return [
-      "Eu entendo.",
-      "Eu também já tentei resolver minha vida mudando apenas as coisas externas.",
-      "Até entender que existe uma mudança que começa dentro:",
-      "A forma como eu pensava, falava e agia todos os dias.",
-      QUESTION_STEPS[4].prompt,
-    ];
-  }
-
-  if (stepIndex === 4) {
-    return [
-      "É exatamente nesse ponto que muitas pessoas começam a enxergar algo diferente.",
-      "Não é simplesmente repetir frases positivas.",
-      "Existe uma forma correta de declarar.",
-      "Existe o que declarar, como declarar, quando declarar e principalmente o que sentir enquanto declara.",
-      QUESTION_STEPS[5].prompt,
+      `Agora vamos ao padrão que costuma passar despercebido: a frase que você repete sobre dinheiro.\n\n${QUESTION_STEPS[2].prompt}`,
     ];
   }
 
   return [
-    "Pelas suas respostas, eu já consigo entender uma coisa:",
-    "Você quer construir uma realidade financeira diferente.",
-    "E foi exatamente isso que eu precisei fazer.",
-    "Eu saí de uma realidade com mais de R$300 mil em dívidas para viver uma nova fase da minha vida.",
-    "E parte dessa transformação começou quando eu aprendi a usar minhas palavras da forma correta.",
-    "Eu preparei uma aula onde vou te mostrar:",
-    "O que declarar.",
-    "Como declarar.",
-    "Quando declarar.",
-    "O que sentir enquanto declara.",
-    "E como você pode começar a aplicar esses princípios na sua própria vida.",
-    "Assista agora.",
+    "Entendi. Agora assista à aula e veja como aplicar esse método à sua realidade.\n\nAssista à aula até o final para entender o método completo.",
   ];
 }
 
@@ -586,17 +470,19 @@ export default function CidFunil() {
     const response = nextMessagesFor(stepIndex);
     const isLastQuestion = stepIndex === QUESTION_STEPS.length - 1;
 
+    if (isLastQuestion) {
+      appendBotMessage(response[0]);
+      setShowVsl(true);
+      setIsStreaming(false);
+      return;
+    }
+
     setIsTyping(true);
     await wait(520);
     await revealBotMessages(response);
     if (!isMounted.current) return;
 
-    if (isLastQuestion) {
-      setShowVsl(true);
-    } else {
-      setCurrentQuestionIndex(stepIndex + 1);
-    }
-
+    setCurrentQuestionIndex(stepIndex + 1);
     setIsStreaming(false);
   }
 
@@ -617,11 +503,14 @@ export default function CidFunil() {
       .reverse()
       .find((group) => group[0]?.role === "bot");
 
-    return groups.map((group) => {
+    return groups.map((group, groupIndex) => {
       const firstMessage = group[0];
       if (firstMessage.role === "user") {
         return (
-          <div key={firstMessage.id} className="cid-message-chunk cid-user-row">
+          <div
+            key={`${firstMessage.role}-${firstMessage.id}-${groupIndex}`}
+            className="cid-message-chunk cid-user-row"
+          >
             <div className="cid-user-stack">
               <div className="cid-user-bubble">
                 <span>{firstMessage.text}</span>
@@ -633,7 +522,7 @@ export default function CidFunil() {
 
       return (
         <div
-          key={firstMessage.id}
+          key={`${firstMessage.role}-${firstMessage.id}-${groupIndex}`}
           className={`cid-message-chunk cid-bot-row${showVsl && group === lastBotGroup ? " cid-row-with-vsl" : ""}`}
         >
           <div className="cid-avatar-slot" aria-hidden="true">
@@ -642,8 +531,11 @@ export default function CidFunil() {
             )}
           </div>
           <div className="cid-bot-stack">
-            {group.map((message) => (
-              <div key={message.id} className="cid-bot-line">
+            {group.map((message, messageIndex) => (
+              <div
+                key={`${message.role}-${message.id}-${messageIndex}`}
+                className="cid-bot-line"
+              >
                 <div className="cid-bot-bubble">{message.text}</div>
               </div>
             ))}
