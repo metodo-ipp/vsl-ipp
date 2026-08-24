@@ -12,7 +12,7 @@ import {
 // ---------------------------------------------------------------------------
 // Configurações
 // ---------------------------------------------------------------------------
-const GROUP_URL = "https://chat.whatsapp.com/FqvP9CLNYwAFHYgnEEqfPI";
+const GROUP_URL = "https://chat.whatsapp.com/HTGDFNobFqP872NwRvn8hX";
 const META_PIXEL_ID = "1361984078704850";
 const NO_EMAIL_PLACEHOLDER = "sem-email@cadastro.invalid";
 
