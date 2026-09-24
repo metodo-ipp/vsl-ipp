@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 
 import VSL from "@/pages/vsl";
 import GrupoGratis from "@/pages/grupo-gratis";
+import GrupoOportunidade from "@/pages/grupo-oportunidade";
 import Links from "@/pages/links";
 import Home from "@/pages/home";
 import Quiz from "@/pages/quiz";
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/" component={Links} />
       <Route path="/como-imprimir-dinheiro-com-palavras" component={VSL} />
       <Route path="/grupo-gratis" component={GrupoGratis} />
+      <Route path="/grupo-oportunidade" component={GrupoOportunidade} />
       <Route path="/cid/grupo" component={CidGrupo} />
       <Route path="/cid/manychat" component={CidManychat} />
       <Route path="/cid/story" component={CidStory} />
