@@ -18,6 +18,8 @@ tags:
     description: Funnel tracking events
   - name: free-group
     description: Free WhatsApp group lead capture
+  - name: opportunity-group
+    description: WhatsApp group opportunity lead capture
 paths:
   /healthz:
     get:
@@ -115,6 +117,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/FreeGroupJoinResult"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /opportunity-group/join:
+    post:
+      operationId: joinOpportunityGroup
+      tags: [opportunity-group]
+      summary: Save contact details before joining the opportunity group
+      description: Saves the visitor's name and phone number, then the client opens the WhatsApp invite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpportunityGroupJoinInput"
+      responses:
+        "201":
+          description: Contact details saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpportunityGroupJoinResult"
         "400":
           description: Invalid input
           content:
@@ -297,6 +324,27 @@ components:
       properties:
         leadId:
           type: string
+    OpportunityGroupJoinInput:
+      type: object
+      required:
+        - name
+        - phone
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 120
+        phone:
+          type: string
+          minLength: 10
+          maxLength: 13
+    OpportunityGroupJoinResult:
+      type: object
+      required:
+        - ok
+      properties:
+        ok:
+          type: boolean
     EventInput:
       type: object
       required:
